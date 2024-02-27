@@ -20,7 +20,7 @@ def scc_to_html(input_file, output_file):
                 f.write(f'<p>{caption.get_text()}</p>\n')
         f.write('</body>\n</html>')
 
-input_file = "2BAW0101HDST.scc"
+input_file = "CaptionSamples/Sample1/2BAW0101HDST.scc"
 output_file = "sample1_scc.html"
 
 scc_to_html(input_file, output_file)
