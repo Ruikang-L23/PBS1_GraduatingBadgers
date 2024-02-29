@@ -45,11 +45,11 @@ def reformat_html(input_file, output_file):
         f.write('\n'.join(formatted_lines))
 
 # generate the unformatted html file
-input_file = "CaptionSamples/Sample1/2BAW0101HDST.scc"
-output_file = "CaptionSamples/Sample1/sample1_scc.html"
+input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
+output_file = "../CaptionSamples/Sample1/sample1_scc.html"
 scc_to_html(input_file, output_file)
 
 # format html file
-input_file = "CaptionSamples/Sample1/sample1_scc.html"
-output_file = "CaptionSamples/Sample1/sample1_scc_formatted.html"
+input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
 reformat_html(input_file, output_file)
