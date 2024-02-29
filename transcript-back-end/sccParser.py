@@ -20,7 +20,36 @@ def scc_to_html(input_file, output_file):
                 f.write(f'<p>{caption.get_text()}</p>\n')
         f.write('</body>\n</html>')
 
-input_file = "CaptionSamples/Sample1/2BAW0101HDST.scc"
-output_file = "sample1_scc.html"
+def reformat_html(input_file, output_file):
+    with open(input_file, 'r') as f:
+        content = f.read()
 
+    # Split the content into lines
+    lines = content.split('\n')
+
+    # Join lines for each speaker's speech
+    formatted_lines = []
+    for line in lines:
+        if line.startswith('<p>- '):
+            formatted_lines.append(line[5:])
+        elif line.startswith('<p>['):
+            formatted_lines.append(line)
+        elif line.startswith('<p>'):
+            previous = formatted_lines[-1][:-4]
+            formatted_lines[-1] = previous + ' ' + line[3:]
+        else:
+            formatted_lines.append(line)
+
+    # Write the formatted content to the output file
+    with open(output_file, 'w') as f:
+        f.write('\n'.join(formatted_lines))
+
+# generate the unformatted html file
+input_file = "2BAW0101HDST.scc"
+output_file = "sample1_scc.html"
 scc_to_html(input_file, output_file)
+
+# format html file
+input_file = "sample1_scc.html"
+output_file = "sample1_scc_formatted.html"
+reformat_html(input_file, output_file)
