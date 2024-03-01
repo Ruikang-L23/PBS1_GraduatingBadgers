@@ -36,7 +36,10 @@ def reformat_html(input_file, output_file):
             formatted_lines.append(line)
         elif line.startswith('<p>'):
             previous = formatted_lines[-1][:-4]
-            formatted_lines[-1] = previous + ' ' + line[3:]
+            if previous[-1] == '.':
+                formatted_lines.append(line)
+            else:
+                formatted_lines[-1] = previous + ' ' + line[3:]
         else:
             formatted_lines.append(line)
 
