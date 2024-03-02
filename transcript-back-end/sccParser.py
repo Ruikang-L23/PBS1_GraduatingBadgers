@@ -33,7 +33,12 @@ def reformat_html(input_file, output_file):
         if line.startswith('<p>- '):
             formatted_lines.append(line[5:])
         elif line.startswith('<p>['):
+
+            # Formatting non-verbal sounds
+            sound_text = line[3:-4]
+            formatted_lines.append(f'<p><i>{sound_text}</i></p>')
             formatted_lines.append(line)
+
         elif line.startswith('<p>'):
             previous = formatted_lines[-1][:-4]
             if previous[-1] == '.':
