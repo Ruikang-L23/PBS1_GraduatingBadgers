@@ -2,7 +2,7 @@ export default function Viewer(props) {
 
     return (
         <div>
-            <h1>Viewer</h1>
+            <h1>Transcript Viewer Page</h1>
         </div>
     );
 

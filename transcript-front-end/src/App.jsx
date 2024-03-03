@@ -12,10 +12,10 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigation />}>
-            <Route index element={<HomePage />} />
-            <Route path="upload" element={<UploadPage />} />
-            <Route path="viewer" element={<Viewer />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route index element={<HomePage />}></Route>
+            <Route path="upload" element={<UploadPage />}></Route>
+            <Route path="viewer" element={<Viewer />}></Route>
+            <Route path="*" element={<ErrorPage />}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
