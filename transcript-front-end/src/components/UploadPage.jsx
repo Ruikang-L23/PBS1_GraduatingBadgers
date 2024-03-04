@@ -18,8 +18,16 @@ export default function UploadPage(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // This is where our API call would go.
         console.log(file);
+        /* This is where our API call would go and then we could 
+           send the returned JSON as a prop to the viewer page.
+        fetch('http://www.test.com', {
+            method: 'POST',
+            headers: {
+                "Content-Type": ""
+            },
+            body: file
+        }) */
         navigator("/viewer");
     }
 
