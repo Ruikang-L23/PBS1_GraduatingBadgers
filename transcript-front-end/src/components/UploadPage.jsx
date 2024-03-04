@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import '../App.css';
 
 export default function UploadPage(props) {
 
@@ -27,16 +28,18 @@ export default function UploadPage(props) {
     return (
         <div>
             <h1>Upload Page</h1>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Caption File</Form.Label>
-                    <Form.Control type="file" onChange={handleFileUpload}></Form.Control>
-                    <Form.Text className="text-muted">Accepts only SRT and SCC caption files.</Form.Text>
-                </Form.Group>
-                <Button onClick={handleSubmit}>
-                    Submit
-                </Button>
-            </Form>
+            <div className="center-card">
+                <Form>
+                    <Form.Group>
+                        <Form.Label style={ { marginBottom: "1.5rem" } }>Caption File</Form.Label>
+                        <Form.Control type="file" className="caption-upload" onChange={handleFileUpload}></Form.Control>
+                        <Form.Text className="text-muted">Accepts only SRT and SCC caption files.</Form.Text>
+                    </Form.Group>
+                    <Button onClick={handleSubmit} variant="outline-dark" disabled={file == 0} style={ { marginTop: "1.5rem" } }>
+                        Submit
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 

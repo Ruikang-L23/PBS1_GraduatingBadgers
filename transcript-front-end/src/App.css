@@ -1,0 +1,23 @@
+.center-card {
+    border: 3px solid;
+    border-radius: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 33%; 
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    padding-top: 25px; 
+    padding-bottom: 25px;
+    background-color: lightblue;
+    box-shadow: 3px 3px 1px black;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: large;
+}
+
+.caption-upload {
+    border: 1px solid;
+}
