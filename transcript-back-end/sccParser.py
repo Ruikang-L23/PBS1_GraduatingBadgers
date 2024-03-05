@@ -37,7 +37,7 @@ def reformat_html(input_file, output_file):
             # Formatting non-verbal sounds
             sound_text = line[3:-4]
             formatted_lines.append(f'<p><i>{sound_text}</i></p>')
-            formatted_lines.append(line)
+            #formatted_lines.append(line)
 
         elif line.startswith('<p>'):
             previous = formatted_lines[-1][:-4]
