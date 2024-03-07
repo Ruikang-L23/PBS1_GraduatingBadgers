@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import CurrentTranscriptContext from "../CurrentTranscriptContext";
 import '../App.css';
 
 export default function UploadPage(props) {
 
     const [file, setFile] = useState(0);
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
+    const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
     const validFileFormats = ['srt', 'scc'];
     let navigator = useNavigate();
 
@@ -34,7 +36,7 @@ export default function UploadPage(props) {
             body: formData
         })
         .then(res => res.text())
-        .then(text => console.log(text))
+        .then(text => setTranscript(text))
 
         navigator("/viewer");
     }
