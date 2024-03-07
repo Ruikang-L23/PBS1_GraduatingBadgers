@@ -32,7 +32,7 @@ def upload_file():
         
         return send_file(reformatted_file, as_attachment=True), 200
 
-# This should be added in another ticket.
+# This should be added in another ticket (PBS-38).
 # It will make working with the transcript on the frontend much easier and allow us to add more features.
 @app.route('/api/upload-json', methods=['POST'])
 def upload_file_json():
