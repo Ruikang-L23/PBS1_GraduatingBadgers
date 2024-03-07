@@ -18,7 +18,7 @@ def upload_file():
         return jsonify({"msg": "Included file was not in an accepted format."}), 415
     
     if file and get_extension(file_name) == 'srt':
-        return jsonify({"msg": "SRT Parsing is not yet implemented."}), 501
+        return jsonify({"msg": "SRT parsing is not yet implemented."}), 501
 
     if file and get_extension(file_name) == 'scc':
         input_file = 'input.scc'
@@ -31,6 +31,12 @@ def upload_file():
         reformat_html(output_file, reformatted_file)
         
         return send_file(reformatted_file, as_attachment=True), 200
+
+# This should be added in another ticket.
+# It will make working with the transcript on the frontend much easier and allow us to add more features.
+@app.route('/api/upload-json', methods=['POST'])
+def upload_file_json():
+    return jsonify({"msg": "Caption file to JSON conversion is not yet implemented."}), 501
 
 if __name__ == '__main__':
     app.run(debug=True)

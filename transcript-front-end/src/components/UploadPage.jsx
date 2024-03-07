@@ -7,18 +7,25 @@ import '../App.css';
 export default function UploadPage(props) {
 
     const [file, setFile] = useState(0);
+    const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
+    const validFileFormats = ['srt', 'scc'];
     let navigator = useNavigate();
 
     const handleFileUpload = (e) => {
         e.preventDefault();
-        // May need to add a check here to make sure the file is an SCC or SRT file but this could also be done in the backend.
         const files = e.target.files;
-        setFile(files[0]);
+        const fileName = files[0].name;
+        if (validFileFormats.includes(fileName.split(".")[1])) {
+            setFileFormatTextClass("text-muted");
+            setFile(files[0]);
+        } else {
+            setFileFormatTextClass("text-danger");
+            setFile(0);
+        }
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const formData = new FormData();
         formData.append('file', file);
 
@@ -42,7 +49,7 @@ export default function UploadPage(props) {
                     <Form.Group>
                         <Form.Label style={ { marginBottom: "1.5rem" } }>Caption File</Form.Label>
                         <Form.Control type="file" className="caption-upload" onChange={handleFileUpload}></Form.Control>
-                        <Form.Text className="text-muted">Accepts only SRT and SCC caption files.</Form.Text>
+                        <Form.Text className={fileFormatTextClass}>Accepts only SRT and SCC caption files.</Form.Text>
                     </Form.Group>
                     <Button onClick={handleSubmit} variant="outline-dark" disabled={file == 0} style={ { marginTop: "1.5rem" } }>
                         Submit
