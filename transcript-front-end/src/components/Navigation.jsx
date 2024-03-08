@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
+import CurrentTranscriptContext from '../CurrentTranscriptContext';
 
 export default function Navigation() {
+
+    const [transcript, setTranscript] = useState(0);
 
     return (
         <div>
@@ -16,7 +20,9 @@ export default function Navigation() {
                 </Container>
             </Navbar>
             <div style={ { margin: "1rem" } }>
-                <Outlet />
+                <CurrentTranscriptContext.Provider value={[transcript, setTranscript]}>
+                    <Outlet />
+                </CurrentTranscriptContext.Provider>
             </div>
         </div>
     );
