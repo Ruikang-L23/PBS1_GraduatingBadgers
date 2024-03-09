@@ -106,8 +106,10 @@ scc_to_html(input_file, output_file)
 
 # format html file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-output_file = "../CaptionSamples/Sample1/sample1_scc_formatted_1.html"
+output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
 reformat_html(input_file, output_file)
 
 # Remove irrelevant sound from the file
+input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
 analyze_relevance(input_file, output_file)
