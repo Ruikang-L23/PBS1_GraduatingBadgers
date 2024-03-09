@@ -1,3 +1,7 @@
+import openai
+from bs4 import BeautifulSoup
+import re
+
 try:
     from pycaption import SCCReader
 except ImportError:
@@ -6,7 +10,6 @@ except ImportError:
 
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pycaption"])
     from pycaption import SCCReader
-
 
 def scc_to_html(input_file, output_file):
     with open(input_file, 'r') as f:
@@ -65,6 +68,36 @@ def reformat_html(input_file, output_file):
     with open(output_file, 'w') as f:
         f.write('\n'.join(formatted_lines))
 
+# Remove the irrelevant sound with chatGPT plugin
+def analyze_relevance(input_file, output_file):
+
+    with open(input_file, 'r') as f:
+        formatted_content = f.read()
+
+    # Extract non-verbal sounds
+    soup = BeautifulSoup(formatted_content, "html.parser")
+    text = soup.get_text()
+    non_verbal_sounds = re.findall(r'\[(.*?)\]', text)
+
+    #OpenAI setting
+    openai.api_key = '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'
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": "Determine the context: " + text},
+        ]
+    )
+    context = response.choices[0].message['content']
+
+    # Check if the extracted sound is relevant to the context
+    irrelevant_sounds = [sound for sound in non_verbal_sounds if not any(keyword in context.lower() for keyword in sound.lower().split(', '))]
+    #print("Relevant Non-verbal Sounds:", irrelevant_sounds)
+    for sound in irrelevant_sounds:
+        pattern = re.compile(r'<p><i>\[' + re.escape(sound) + r'\]</i></p>')
+        formatted_content = pattern.sub('', formatted_content)
+
+    with open(output_file, 'w') as f:
+        f.write(formatted_content)
 
 # generate the unformatted html file
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
@@ -73,5 +106,8 @@ scc_to_html(input_file, output_file)
 
 # format html file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
+output_file = "../CaptionSamples/Sample1/sample1_scc_formatted_1.html"
 reformat_html(input_file, output_file)
+
+# Remove irrelevant sound from the file
+analyze_relevance(input_file, output_file)
