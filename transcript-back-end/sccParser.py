@@ -1,6 +1,8 @@
 import openai
 from bs4 import BeautifulSoup
 import re
+import json
+import datetime
 
 try:
     from pycaption import SCCReader
@@ -68,6 +70,46 @@ def reformat_html(input_file, output_file):
     with open(output_file, 'w') as f:
         f.write('\n'.join(formatted_lines))
 
+def float_to_time_format(float_mmm):
+    # Convert float microseconds to a timedelta object
+    timedelta = datetime.timedelta(microseconds=float_mmm)
+    # Convert timedelta to a string in the desired format
+    time_format = str(timedelta)
+    # Extract hours, minutes, seconds, and milliseconds
+    parts = time_format.split(':')
+    hours = int(parts[0])
+    minutes = int(parts[1])
+    seconds = int(parts[2].split('.')[0])
+    milliseconds = int(parts[2].split('.')[1]) if '.' in parts[2] else 0
+    # Format the time string with leading zeros
+    formatted_time = f"{hours:02d}:{minutes:02d}:{seconds:02d}.{milliseconds:03d}"
+    return formatted_time
+
+def scc_to_json_F(input_file, output_file):
+    with open(input_file, 'r') as f:
+        scc_content = f.read()
+
+    captions = SCCReader().read(scc_content)
+    
+    data = []
+    for lang in captions.get_languages():
+        captions_lang = captions.get_captions(lang)
+        for caption in captions_lang:
+            start = caption.start
+            end = caption.end
+            start = float_to_time_format(start)
+            end = float_to_time_format(end)     
+            text = caption.get_text()
+            data.append({
+                'start_time': start,
+                'end_time': end,
+                'text': text
+            })
+
+    # Saving to a JSON file
+    with open(output_file, 'w') as json_file:
+        json.dump(data, json_file, indent=2)
+
 # Remove the irrelevant sound with chatGPT plugin
 def analyze_relevance(input_file, output_file):
 
@@ -113,3 +155,8 @@ reformat_html(input_file, output_file)
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
 output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
 analyze_relevance(input_file, output_file)
+
+# fragments json file
+input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+output_file = "../CaptionSamples/Sample1/sample1_fragments.json"
+scc_to_json_F(input_file, output_file)
