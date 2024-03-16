@@ -155,6 +155,7 @@ def remove_filler_words(text):
         if stripped_word not in FILLER_WORDS:
             filtered_words.append(word)
     return ' '.join(filtered_words)
+
 def toggle_mode(transcript, mode):
     if mode not in ['verbatim', 'non-verbatim']:
         raise ValueError("Mode must be 'verbatim' or 'non-verbatim'")
