@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import json
 import datetime
+import string
 
 try:
     from pycaption import SCCReader
@@ -140,6 +141,34 @@ def analyze_relevance(input_file, output_file):
 
     with open(output_file, 'w') as f:
         f.write(formatted_content)
+
+# Non-Verbatim transcript conversion
+FILLER_WORDS = ['um', 'uh', 'ah', 'like']
+def remove_filler_words(text):
+    words = text.split()
+    # Create a translation table for removing punctuation
+    translator = str.maketrans('', '', string.punctuation)
+    filtered_words = []
+    for word in words:
+        # Remove punctuation from the word for comparison
+        stripped_word = word.translate(translator).lower()
+        if stripped_word not in FILLER_WORDS:
+            filtered_words.append(word)
+    return ' '.join(filtered_words)
+def toggle_mode(transcript, mode):
+    if mode not in ['verbatim', 'non-verbatim']:
+        raise ValueError("Mode must be 'verbatim' or 'non-verbatim'")
+
+    if mode == 'verbatim':
+        return transcript
+
+    return remove_filler_words(transcript)
+
+with open('filter_words_test.txt', 'r') as file:
+    transcript = file.read()
+filtered_transcript = toggle_mode(transcript, 'non-verbatim')
+with open('filter_words_tested.txt', 'w') as file:
+    file.write(filtered_transcript)
 
 # generate the unformatted html file
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
