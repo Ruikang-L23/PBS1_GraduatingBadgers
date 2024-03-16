@@ -122,7 +122,7 @@ def analyze_relevance(input_file, output_file):
     non_verbal_sounds = re.findall(r'\[(.*?)\]', text)
 
     #OpenAI setting
-    openai.api_key = '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'
+    openai.api_key = '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'
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
