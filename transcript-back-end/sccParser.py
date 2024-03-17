@@ -187,6 +187,6 @@ output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
 analyze_relevance(input_file, output_file)
 
 # fragments json file
-input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
 output_file = "../CaptionSamples/Sample1/sample1_fragments.json"
 scc_to_json_F(input_file, output_file)
