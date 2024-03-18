@@ -76,20 +76,24 @@ export default function Viewer(props) {
                 ? <div dangerouslySetInnerHTML={{ __html: transcript }} />
                 : <p>Please upload a caption file using the upload page.</p>
             }
-            <div className="toolbar"> {/* Make sure the class name is a string */}
-                <button className="iconButton" onClick={handleDownload}>
-                    <img src={downloadIcon} alt="Download" /> {/* Use img tags for imported SVGs */}
-                </button>
-                <button className="iconButton" onClick={handleFontSize}>
-                    <img src={fontIcon} alt="Font Size" />
-                </button>
-                <button className="iconButton" onClick={handleNotes}>
-                    <img src={noteIcon} alt="Notes" />
-                </button>
-                <button className="iconButton" onClick={handleAI}>
-                    <img src={aiIcon} alt="AI" />
-                </button>
-            </div>
+            {
+                transcript
+                ? <div className="toolbar"> {/* Make sure the class name is a string */}
+                    <button className="iconButton" onClick={handleDownload}>
+                        <img src={downloadIcon} alt="Download" /> {/* Use img tags for imported SVGs */}
+                    </button>
+                    <button className="iconButton" onClick={handleFontSize}>
+                        <img src={fontIcon} alt="Font Size" />
+                    </button>
+                    <button className="iconButton" onClick={handleNotes}>
+                        <img src={noteIcon} alt="Notes" />
+                    </button>
+                    <button className="iconButton" onClick={handleAI}>
+                        <img src={aiIcon} alt="AI" />
+                    </button>
+                  </div>
+                : <></>
+            }
         </div>
     );
 }

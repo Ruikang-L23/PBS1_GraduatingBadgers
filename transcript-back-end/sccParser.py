@@ -64,7 +64,8 @@ def reformat_html(input_file, output_file):
                 formatted_text = f'<b>{first_part}</b>{second_part}'
             else:
                 # Add "Unknown" to specify missing speaker name
-                formatted_text = f'<b>Unknown:</b> {text[2:]}'
+                # formatted_text = f'<b>Unknown:</b> {text[2:]}' Temporarily removed for demo.
+                formatted_text = text
             
         # Case 2: If the text starts with "["
         elif text.startswith("["):
