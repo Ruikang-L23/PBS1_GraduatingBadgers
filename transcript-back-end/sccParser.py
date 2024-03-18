@@ -210,7 +210,7 @@ reformat_html(input_file, output_file)
 # Remove irrelevant sound from the file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
 output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
-analyze_relevance(input_file, output_file)
+#analyze_relevance(input_file, output_file)
 
 # fragments json file
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
