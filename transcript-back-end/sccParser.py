@@ -169,6 +169,18 @@ def analyze_relevance(input_file, output_file):
         f.write(formatted_content)
 
 # Non-Verbatim transcript conversion
+def correct_grammar(text):
+    # Use the ChatGPT plugin to correct grammatical errors in the text
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": "Correct the grammar: " + text},
+        ]
+    )
+    corrected_text = response.choices[0].message['content']
+    return corrected_text
+
+
 FILLER_WORDS = ['um', 'uh', 'ah', 'like']
 def remove_filler_words(text):
     words = text.split()
@@ -187,7 +199,7 @@ def toggle_mode(transcript, mode):
         raise ValueError("Mode must be 'verbatim' or 'non-verbatim'")
 
     if mode == 'verbatim':
-        return transcript
+        return correct_grammar(transcript)
 
     return remove_filler_words(transcript)
 
