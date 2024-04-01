@@ -21,3 +21,14 @@
 .caption-upload {
     border: 1px solid;
 }
+
+.labeled-switch {
+    margin-top: 1rem;
+    align-content: center;
+    display: flex;
+}
+
+.option-label {
+    font-size: 1.1rem;
+    color: rgba(33, 37, 41, 0.95);
+}

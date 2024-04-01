@@ -1,8 +1,5 @@
-import openai
 from bs4 import BeautifulSoup
-import re
 import json
-import string
 from utils import float_to_time_format
 from aiUtils import analyze_relevance, correct_grammar, remove_filler_words, toggle_mode
 
@@ -57,7 +54,7 @@ def srt_to_html(input_file, output_file, encoding='ISO-8859-1'):
                 f.write(f'<p data-timestamp-start="{start}" data-timestamp-end="{end}">{caption.get_text()}</p>\n<br>\n')
         f.write('<script src="script.js"></script>\n</body>\n</html>')
 
-def reformat_html(input_file, output_file):
+def reformat_html(input_file, output_file, italics_state):
     with open(input_file, 'r') as f:
         content = f.read()
 
@@ -93,7 +90,10 @@ def reformat_html(input_file, output_file):
         # Case 2: If the text starts with "["
         elif text.startswith("["):
             # Italicize the text
-            formatted_text = '<i>' + text + '</i>'
+            if italics_state is True:
+                formatted_text = '<i>' + text + '</i>'
+            else:
+                formatted_text = text
 
         # Case 3: If it is not either case
         else:
@@ -170,10 +170,10 @@ srt_to_html(input_file, output_file)
 # format html file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
 output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
-reformat_html(input_file, output_file)
+reformat_html(input_file, output_file, True)
 input_file = "../CaptionSamples/Sample1/sample1_srt.html"
 output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
-reformat_html(input_file, output_file)
+reformat_html(input_file, output_file, True)
 
 # Remove irrelevant sound from the file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
