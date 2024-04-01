@@ -1,6 +1,7 @@
 import openai
 import re
 import string
+import os
 from bs4 import BeautifulSoup
 
 # Remove the irrelevant sound with chatGPT plugin
@@ -14,8 +15,8 @@ def analyze_relevance(input_file, output_file):
     text = soup.get_text()
     non_verbal_sounds = re.findall(r'\[(.*?)\]', text)
 
-    #OpenAI setting
-    openai.api_key = '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'
+    # Set your API key as an environment variable on your computer with the name OpenAI.
+    openai.api_key = os.environ["OpenAI"]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
