@@ -14,6 +14,8 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pycaption"])
     from pycaption import SCCReader
 
+from pycaption import SRTReader
+
 def scc_to_html(input_file, output_file):
     with open(input_file, 'r') as f:
         scc_content = f.read()
@@ -32,6 +34,26 @@ def scc_to_html(input_file, output_file):
                 start = float_to_time_format(caption.start)
                 end = float_to_time_format(caption.end)
                 f.write(f'<p data-timestamp-start={start} data-timestamp-end={end}>{caption.get_text()}</p>\n<br>\n')
+        f.write('<script src="script.js"></script>\n</body>\n</html>')
+
+def srt_to_html(input_file, output_file, encoding='ISO-8859-1'):
+    with open(input_file, 'r', encoding=encoding) as f:
+        srt_content = f.read()
+
+    captions = SRTReader().read(srt_content)
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write('''<html>\n
+                    <head>\n
+                        <link rel="stylesheet" href="styles.css">
+                    </head>\n
+                    <body>\n''')
+        for lang in captions.get_languages():
+            captions_lang = captions.get_captions(lang)
+            for caption in captions_lang:
+                start = float_to_time_format(caption.start)
+                end = float_to_time_format(caption.end)
+                f.write(f'<p data-timestamp-start="{start}" data-timestamp-end="{end}">{caption.get_text()}</p>\n<br>\n')
         f.write('<script src="script.js"></script>\n</body>\n</html>')
 
 def reformat_html(input_file, output_file):
@@ -87,7 +109,9 @@ def reformat_html(input_file, output_file):
                 formatted_text = text
 
         # Update the paragraph's HTML with the formatted text
-        paragraph.string.replace_with(BeautifulSoup(formatted_text, 'html.parser'))
+        #paragraph.string.replace_with(BeautifulSoup(formatted_text, 'html.parser'))
+        paragraph.clear()
+        paragraph.append(BeautifulSoup(formatted_text, 'html.parser'))
 
         # Update the previous paragraph
         prev_paragraph = paragraph
@@ -213,10 +237,16 @@ with open('filter_words_tested.txt', 'w') as file:
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
 output_file = "../CaptionSamples/Sample1/sample1_scc.html"
 scc_to_html(input_file, output_file)
+input_file = "../CaptionSamples/Sample1/2BAW0101HDST.srt"
+output_file = "../CaptionSamples/Sample1/sample1_srt.html"
+srt_to_html(input_file, output_file)
 
 # format html file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
 output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
+reformat_html(input_file, output_file)
+input_file = "../CaptionSamples/Sample1/sample1_srt.html"
+output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
 reformat_html(input_file, output_file)
 
 # Remove irrelevant sound from the file
