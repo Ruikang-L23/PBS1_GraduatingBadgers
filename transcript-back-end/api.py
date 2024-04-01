@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-from parser import scc_to_html, reformat_html
+from transcriptParser import scc_to_html, srt_to_html, reformat_html
 from utils import is_allowed_file, get_extension
 
 app = Flask(__name__)
@@ -18,7 +18,16 @@ def upload_file():
         return jsonify({"msg": "Included file was not in an accepted format."}), 415
     
     if file and get_extension(file_name) == 'srt':
-        return jsonify({"msg": "SRT parsing is not yet implemented."}), 501
+        input_file = 'input.srt'
+        output_file = 'output.html'
+        reformatted_file = 'reformat.html'
+
+        file.save(input_file)
+
+        srt_to_html(input_file, output_file)
+        reformat_html(output_file, reformatted_file)
+
+        return send_file(reformatted_file, as_attachment=True), 200
 
     if file and get_extension(file_name) == 'scc':
         input_file = 'input.scc'
