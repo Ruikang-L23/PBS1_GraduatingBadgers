@@ -53,13 +53,13 @@ export default function UploadPage(props) {
                         <Form.Control type="file" className="caption-upload" onChange={handleFileUpload}></Form.Control>
                         <Form.Text className={fileFormatTextClass}>Accepts only SRT and SCC caption files.</Form.Text>
                     </Form.Group>
-                    <div style={ { marginTop: "1rem", alignContent: "center", display: "flex"} }>
+                    <div className="labeled-switch">
                         <Form.Check 
                             defaultChecked={italicSwitchState} 
                             onChange={() => setItalicSwitchState((old) => !old)} 
                             type="switch"
                         />
-                        <p style={ { fontSize: "1.1rem", color: "rgba(33, 37, 41, 0.85)" } } >Italicize non-verbal cues?</p>
+                        <p className="option-label">Italicize non-verbal cues?</p>
                     </div>
                     <Button onClick={handleSubmit} variant="outline-dark" disabled={file == 0} style={ { marginTop: "1.5rem" } }>
                         Submit
