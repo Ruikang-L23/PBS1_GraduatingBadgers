@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-from sccParser import scc_to_html, reformat_html
+from parser import scc_to_html, reformat_html
 from utils import is_allowed_file, get_extension
 
 app = Flask(__name__)
