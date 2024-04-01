@@ -2,7 +2,7 @@ export default function ErrorPage(props) {
 
     return (
         <div>
-            <h1>Error Page</h1>
+            <h1>An error has occurred.</h1>
         </div>
     );
 

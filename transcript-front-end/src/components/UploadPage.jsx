@@ -45,7 +45,7 @@ export default function UploadPage(props) {
 
     return (
         <div>
-            <h1>Upload Page</h1>
+            <h1>Upload</h1>
             <div className="center-card">
                 <Form>
                     <Form.Group>
