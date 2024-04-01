@@ -16,8 +16,6 @@ except ImportError:
 
 from pycaption import SRTReader
 
-from pycaption import SRTReader
-
 def scc_to_html(input_file, output_file):
     with open(input_file, 'r') as f:
         scc_content = f.read()
