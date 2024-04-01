@@ -233,6 +233,13 @@ filtered_transcript = toggle_mode(transcript, 'non-verbatim')
 with open('filter_words_tested.txt', 'w') as file:
     file.write(filtered_transcript)
 
+def html_to_txt(input_html, output_txt):
+    with open(input_html, 'r', encoding='utf-8') as f:
+        html_content = f.read()
+
+    with open(output_txt, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+
 # generate the unformatted html file
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
 output_file = "../CaptionSamples/Sample1/sample1_scc.html"
@@ -258,3 +265,11 @@ analyze_relevance(input_file, output_file)
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
 output_file = "../CaptionSamples/Sample1/sample1_fragments.json"
 scc_to_json_F(input_file, output_file)
+
+# html to txt
+input_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
+output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.txt"
+html_to_txt(input_file, output_file)
+input_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
+output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.txt"
+html_to_txt(input_file, output_file)
