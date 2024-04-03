@@ -10,6 +10,7 @@ export default function UploadPage(props) {
     const [file, setFile] = useState(0);
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
     const [italicSwitchState, setItalicSwitchState] = useState(false);
+    const [aiSwitchState, setAISwitchState] = useState(true);
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
     const validFileFormats = ['srt', 'scc'];
     let navigator = useNavigate();
@@ -29,9 +30,11 @@ export default function UploadPage(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('italics', italicSwitchState)
+        formData.append('ai', aiSwitchState);
+        formData.append('italics', italicSwitchState);
 
         fetch('http://localhost:5000/api/upload', {
             method: "POST",
@@ -53,6 +56,14 @@ export default function UploadPage(props) {
                         <Form.Control type="file" className="caption-upload" onChange={handleFileUpload}></Form.Control>
                         <Form.Text className={fileFormatTextClass}>Accepts only SRT and SCC caption files.</Form.Text>
                     </Form.Group>
+                    <div className="labeled-switch">
+                        <Form.Check 
+                            defaultChecked={aiSwitchState} 
+                            onChange={() => setAISwitchState((old) => !old)} 
+                            type="switch"
+                        />
+                        <p className="option-label">Enable AI usage?</p>
+                    </div>
                     <div className="labeled-switch">
                         <Form.Check 
                             defaultChecked={italicSwitchState} 
