@@ -21,6 +21,13 @@ def upload_file():
     else:    
         italics_state = False
 
+    # Check flag that determines whether to utilize AI tools in transcript generation.
+    ai_state = request.form['ai']
+    if 'true' in ai_state:
+        ai_state = True
+    else:
+        ai_state = False
+
     if not is_allowed_file(file_name):
         return jsonify({"msg": "Included file was not in an accepted format."}), 415
     
@@ -33,6 +40,9 @@ def upload_file():
 
         srt_to_html(input_file, output_file)
         reformat_html(output_file, reformatted_file, italics_state)
+        if ai_state:
+            # Run AI formatting on reformatted_file if this flag is true.
+            print("Not yet implemented.\n")
 
         return send_file(reformatted_file, as_attachment=True), 200
 
@@ -45,6 +55,9 @@ def upload_file():
 
         scc_to_html(input_file, output_file)
         reformat_html(output_file, reformatted_file, italics_state)
+        if ai_state:
+            # Run AI formatting on reformatted_file if this flag is true.
+            print("Not yet implemented.\n")
         
         return send_file(reformatted_file, as_attachment=True), 200
 
