@@ -32,3 +32,15 @@
     font-size: 1.1rem;
     color: rgba(33, 37, 41, 0.95);
 }
+
+.radio-label {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+    color: rgba(33, 37, 41, 0.95);   
+}
+
+.muted-radio-label {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+    color: rgba(33, 37, 41, 0.65);      
+}
