@@ -36,7 +36,7 @@ export default function UploadPage(props) {
         formData.append('file', file);
         formData.append('ai', aiSwitchState);
         formData.append('italics', italicSwitchState);
-        formData.append('transcriptionMode',)
+        formData.append('transcriptionMode', transcriptionMode);
 
         fetch('http://localhost:5000/api/upload', {
             method: "POST",

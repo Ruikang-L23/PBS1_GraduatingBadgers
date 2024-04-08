@@ -28,6 +28,11 @@ def upload_file():
     else:
         ai_state = False
 
+    transcription_mode = request.form['transcriptionMode']
+
+    if transcription_mode == 'non-verbatim' and ai_state == False:
+        return jsonify({"msg": "Non-Verbatim transcription is not possible with AI usage disabled."})
+
     if not is_allowed_file(file_name):
         return jsonify({"msg": "Included file was not in an accepted format."}), 415
     
@@ -41,8 +46,17 @@ def upload_file():
         srt_to_html(input_file, output_file)
         reformat_html(output_file, reformatted_file, italics_state)
         if ai_state:
-            # Run AI formatting on reformatted_file if this flag is true.
-            print("Not yet implemented.\n")
+            if transcription_mode == 'non-verbatim':
+                # Run all AI formatting on reformatted_file if this flag is true.
+                # This means removing filler words, correcting grammar, and removing unrelated non-verbal cues.
+                # As well as, grouping paragraphs together by their context within the transcript.
+                print("Not yet implemented.\n")
+            else:
+                # Run only AI formatting that will not change the content of the transcript.
+                # This only includes grouping paragraphs together by their context.
+                # Possibly includes removing unrelated non-verbal cues.
+                print("Not yet implemented\n")
+                
 
         return send_file(reformatted_file, as_attachment=True), 200
 
@@ -56,8 +70,16 @@ def upload_file():
         scc_to_html(input_file, output_file)
         reformat_html(output_file, reformatted_file, italics_state)
         if ai_state:
-            # Run AI formatting on reformatted_file if this flag is true.
-            print("Not yet implemented.\n")
+            if transcription_mode == 'non-verbatim':
+                # Run all AI formatting on reformatted_file if this flag is true.
+                # This means removing filler words, correcting grammar, and removing unrelated non-verbal cues.
+                # As well as, grouping paragraphs together by their context within the transcript.
+                print("Not yet implemented.\n")
+            else:
+                # Run only AI formatting that will not change the content of the transcript.
+                # This only includes grouping paragraphs together by their context.
+                # Possibly includes removing unrelated non-verbal cues.
+                print("Not yet implemented\n")
         
         return send_file(reformatted_file, as_attachment=True), 200
 
