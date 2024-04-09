@@ -3,6 +3,7 @@ import re
 import string
 import os
 from bs4 import BeautifulSoup
+from organizeBySubjectMatter import organize_paragraphs_by_subject_matter
 
 # Remove the irrelevant sound with chatGPT plugin
 def analyze_relevance(input_file, output_file):
@@ -105,6 +106,8 @@ def toggle_mode(input_file, mode):
         with open(filtered_file, 'w') as f:
             f.write(filtered_content)
 
+def organize_by_subject_matter(input_file, output_file):
+    organize_paragraphs_by_subject_matter(input_file, output_file)
 
 # Remove irrelevant sound from the file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
