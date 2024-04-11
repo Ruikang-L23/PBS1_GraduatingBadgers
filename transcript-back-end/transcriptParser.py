@@ -153,11 +153,11 @@ def html_to_txt(input_html, output_txt):
     with open(output_txt, 'w', encoding='utf-8') as f:
         f.write(html_content)
 
-with open('filter_words_test.txt', 'r') as file:
-    transcript = file.read()
-filtered_transcript = toggle_mode(transcript, 'non-verbatim')
-with open('filter_words_tested.txt', 'w') as file:
-    file.write(filtered_transcript)
+# with open('filter_words_test.txt', 'r') as file:
+#    transcript = file.read()
+# filtered_transcript = toggle_mode(transcript, 'non-verbatim')
+# with open('filter_words_tested.txt', 'w') as file:
+#    file.write(filtered_transcript)
 
 # generate the unformatted html file
 input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"

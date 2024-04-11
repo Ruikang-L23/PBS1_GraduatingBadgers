@@ -36,8 +36,6 @@ def analyze_relevance(input_file, output_file):
     with open(output_file, 'w') as f:
         f.write(formatted_content)
 
-
-
 # Non-Verbatim transcript conversion
 def correct_grammar(input_file, output_file):
     with open(input_file, 'r') as f:
@@ -64,14 +62,10 @@ def correct_grammar(input_file, output_file):
     with open(output_file, 'w') as f:
         f.write(corrected_content)
 
-
-import re
-from bs4 import BeautifulSoup
-
 FILLER_WORDS = ["uh", "um", "er", "ah", "hmm", "you know", "basically",
                 "actually", "kind of", "sort of", "i mean", "right", "okay"]
 
-def remove_filter_words(html_content):
+def remove_filler_words(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
 
     for p in soup.find_all('p'):
@@ -85,7 +79,7 @@ def remove_filter_words(html_content):
 
     return str(soup)
 
-# In the toggle_mode function, replace the call to remove_filter_words with this new implementation.
+# In the toggle_mode function, replace the call to remove_filler_words with this new implementation.
 def toggle_mode(input_file, mode):
     if mode not in ['verbatim', 'non-verbatim']:
         raise ValueError("Mode must be 'verbatim' or 'non-verbatim'")
@@ -101,7 +95,7 @@ def toggle_mode(input_file, mode):
             corrected_content = f.read()
 
         # Perform filtering and create the non-verbatim file
-        filtered_content = remove_filter_words(corrected_content)
+        filtered_content = remove_filler_words(corrected_content)
         filtered_file = input_file.replace('.html', '_nonverbatim.html')
         with open(filtered_file, 'w') as f:
             f.write(filtered_content)
@@ -110,14 +104,14 @@ def organize_by_subject_matter(input_file, output_file):
     organize_paragraphs_by_subject_matter(input_file, output_file)
 
 # Remove irrelevant sound from the file
-input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
-analyze_relevance(input_file, output_file)
+# input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+# output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
+# analyze_relevance(input_file, output_file)
 
 
-#non Verbatim mode
-#input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-mode = "non-verbatim"
-input_file = "../CaptionSamples/Sample1/mini.html"
-toggle_mode(input_file, mode)
+# Non-Verbatim mode
+# input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+# mode = "non-verbatim"
+# input_file = "../CaptionSamples/Sample1/mini.html"
+# toggle_mode(input_file, mode)
 
