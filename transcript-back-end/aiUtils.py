@@ -7,6 +7,37 @@ from organizeBySubjectMatter import organize_paragraphs_by_subject_matter
 
 # Remove the irrelevant sound with chatGPT plugin
 def analyze_relevance(input_file, output_file):
+    with open(input_file, 'r') as f:
+        formatted_content = f.read()
+
+    soup = BeautifulSoup(formatted_content, "html.parser")
+
+    # Extract non-verbal sounds
+    non_verbal_sounds = [tag.get_text() for tag in soup.find_all("i")]
+
+    # Set your API key as an environment variable on your computer with the name OpenAI.
+    openai.api_key = os.environ["OpenAI"]
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": "Determine the context: " + soup.get_text()},
+        ]
+    )
+    context = response.choices[0].message['content']
+
+    # Check if the extracted sound is relevant to the context
+    irrelevant_sounds = [sound for sound in non_verbal_sounds if not any(keyword in context.lower() for keyword in sound.lower().split(', '))]
+
+    # Remove irrelevant non-verbal sounds from the HTML content
+    for sound in irrelevant_sounds:
+        for tag in soup.find_all("i"):
+            if tag.get_text() == sound:
+                tag.decompose()
+
+    with open(output_file, 'w') as f:
+        f.write(str(soup))
+
+def analyze_relevance_reg(input_file, output_file):
 
     with open(input_file, 'r') as f:
         formatted_content = f.read()
@@ -96,7 +127,8 @@ def toggle_mode(input_file, mode):
 
         # Perform filtering and create the non-verbatim file
         filtered_content = remove_filler_words(corrected_content)
-        filtered_file = input_file.replace('.html', '_nonverbatim.html')
+        #filtered_file = input_file.replace('.html', '_nonverbatim.html')
+        filtered_file = input_file.replace('.html', '.html')
         with open(filtered_file, 'w') as f:
             f.write(filtered_content)
 

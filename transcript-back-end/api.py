@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from transcriptParser import scc_to_html, srt_to_html, reformat_html
 from utils import is_allowed_file, get_extension
+from aiUtils import toggle_mode, analyze_relevance, correct_grammar, remove_filler_words
+from organizeBySubjectMatter import organize_paragraphs_by_subject_matter
 
 app = Flask(__name__)
 CORS(app)
@@ -47,11 +49,17 @@ def upload_file():
         reformat_html(output_file, reformatted_file, italics_state)
         if ai_state:
             if transcription_mode == 'non-verbatim':
+                # TODO ask Oliver if the input file is already formatted and has italics <i> for the sounds 
+                analyze_relevance(reformatted_file, reformatted_file)
+                toggle_mode(reformatted_file, "non-verbatim")
+                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
                 # Run all AI formatting on reformatted_file if this flag is true.
                 # This means removing filler words, correcting grammar, and removing unrelated non-verbal cues.
                 # As well as, grouping paragraphs together by their context within the transcript.
                 print("Not yet implemented.\n")
             else:
+                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
+                analyze_relevance(reformatted_file, reformatted_file)
                 # Run only AI formatting that will not change the content of the transcript.
                 # This only includes grouping paragraphs together by their context.
                 # Possibly includes removing unrelated non-verbal cues.
@@ -71,11 +79,16 @@ def upload_file():
         reformat_html(output_file, reformatted_file, italics_state)
         if ai_state:
             if transcription_mode == 'non-verbatim':
+                analyze_relevance(reformatted_file, reformatted_file)
+                toggle_mode(reformatted_file, "non-verbatim")
+                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
                 # Run all AI formatting on reformatted_file if this flag is true.
                 # This means removing filler words, correcting grammar, and removing unrelated non-verbal cues.
                 # As well as, grouping paragraphs together by their context within the transcript.
                 print("Not yet implemented.\n")
             else:
+                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
+                analyze_relevance(reformatted_file, reformatted_file)
                 # Run only AI formatting that will not change the content of the transcript.
                 # This only includes grouping paragraphs together by their context.
                 # Possibly includes removing unrelated non-verbal cues.
