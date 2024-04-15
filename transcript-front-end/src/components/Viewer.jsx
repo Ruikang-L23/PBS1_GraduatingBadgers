@@ -54,14 +54,16 @@ export default function Viewer(props) {
     }, [transcript]);
 
     useEffect(() => {
+        const paragraphs = document.querySelectorAll('p');
+        const header = document.getElementById('transcriptHeader');
         if (darkMode) {
             document.body.style = 'background: black;';
-            const paragraphs = document.querySelectorAll('p');
             paragraphs.forEach(paragraph => paragraph.classList.add('dark-mode'));
+            header.classList.add('dark-mode');
         } else {
             document.body.style = 'background: white;';
-            const paragraphs = document.querySelectorAll('p');
             paragraphs.forEach(paragraph => paragraph.classList.remove('dark-mode'));
+            header.classList.remove('dark-mode');
         }
     }, [darkMode]);
 
@@ -79,7 +81,7 @@ export default function Viewer(props) {
 
     return (
         <div>
-            <h1 className={darkMode ? 'dark-mode' : ''} >Transcript</h1>
+            <h1 id="transcriptHeader">Transcript</h1>
             {
                 transcript 
                 ? <div dangerouslySetInnerHTML={{ __html: transcript }} />
