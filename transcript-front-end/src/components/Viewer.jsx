@@ -4,7 +4,6 @@ import CurrentTranscriptContext from "../CurrentTranscriptContext";
 import aiIcon from "./icons/ai.svg"; 
 import downloadIcon from "./icons/download.svg";
 import contrastModeIcon from "./icons/contrastMode.svg";
-import fontIcon from "./icons/font.svg";
 import increaseFontSizeIcon from './icons/increaseFontSize.svg'
 import decreaseFontSizeIcon from './icons/decreaseFontSize.svg'
 
