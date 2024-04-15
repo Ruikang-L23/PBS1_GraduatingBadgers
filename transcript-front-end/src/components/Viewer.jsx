@@ -5,11 +5,14 @@ import aiIcon from "./icons/ai.svg";
 import downloadIcon from "./icons/download.svg";
 import contrastModeIcon from "./icons/contrastMode.svg";
 import fontIcon from "./icons/font.svg";
+import increaseFontSizeIcon from './icons/increaseFontSize.svg'
+import decreaseFontSizeIcon from './icons/decreaseFontSize.svg'
 
 export default function Viewer(props) {
 
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
     const [darkMode, setDarkMode] = useState(false);
+    const [fontSize, setFontSize] = useState(0);
 
     function createTimestampBubble(startTime, endTime) {
         const bubble = document.createElement('div');
@@ -53,6 +56,9 @@ export default function Viewer(props) {
         });
     }, [transcript]);
 
+    /* A state change to either fontSize or darkMode will cause this function to be run.
+       The function simply finds all of the <p> tags and the header, updating their styling. 
+    */
     useEffect(() => {
         const paragraphs = document.querySelectorAll('p');
         const header = document.getElementById('transcriptHeader');
@@ -65,14 +71,12 @@ export default function Viewer(props) {
             paragraphs.forEach(paragraph => paragraph.classList.remove('dark-mode'));
             header.classList.remove('dark-mode');
         }
-    }, [darkMode]);
+        paragraphs.forEach(paragraph => paragraph.style.setProperty('font-size', (1 + (fontSize * 0.15) + "rem")));
+        header.style.setProperty('font-size', (2 + (fontSize * 0.3) + "rem"));
+    }, [fontSize, darkMode]);
 
     const handleDownload = () => {
         // Logic for downloading the transcript
-    };
-
-    const handleFontSize = () => {
-        // Logic for adjusting the font size
     };
 
     const handleAI = () => {
@@ -93,8 +97,11 @@ export default function Viewer(props) {
                     <button className="iconButton" onClick={handleDownload}>
                         <img src={downloadIcon} alt="Download" />
                     </button>
-                    <button className="iconButton" onClick={handleFontSize}>
-                        <img src={fontIcon} alt="Font Size" />
+                    <button className="iconButton" disabled={fontSize >= 2} onClick={() => setFontSize((count) => count + 1)}>
+                        <img src={increaseFontSizeIcon} alt="Increase Font Size" />
+                    </button>
+                    <button className="iconButton" disabled={fontSize <= -2} onClick={() => setFontSize((count) => count - 1)}>
+                        <img src={decreaseFontSizeIcon} alt="Decrease Font Size" />
                     </button>
                     <button className="iconButton" onClick={() => setDarkMode((old) => !old)}>
                         <img src={contrastModeIcon} alt="Dark Mode" />
