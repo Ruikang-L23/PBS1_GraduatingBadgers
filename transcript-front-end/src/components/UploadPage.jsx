@@ -11,6 +11,7 @@ export default function UploadPage(props) {
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
     const [italicSwitchState, setItalicSwitchState] = useState(false);
     const [aiSwitchState, setAISwitchState] = useState(true);
+    const [timestampsState, setTimestampsState] = useState(false);
     const [transcriptionMode, setTranscriptionMode] = useState('verbatim');
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
     const validFileFormats = ['srt', 'scc'];
@@ -36,6 +37,7 @@ export default function UploadPage(props) {
         formData.append('file', file);
         formData.append('ai', aiSwitchState);
         formData.append('italics', italicSwitchState);
+        formData.append('timestamps', timestampsState);
         formData.append('transcriptionMode', transcriptionMode);
 
         fetch('http://localhost:5000/api/upload', {
@@ -96,6 +98,14 @@ export default function UploadPage(props) {
                                 type="switch"
                             />
                             <p className="option-label">Italicize non-verbal cues?</p>
+                        </div>
+                        <div className="labeled-switch">
+                            <Form.Check 
+                                defaultChecked={timestampsState} 
+                                onChange={() => setTimestampsState((old) => !old)}
+                                type="switch"
+                            />
+                            <p className="option-label">Include timestamps?</p>
                         </div>
                     </Form.Group>
                     <Button onClick={handleSubmit} variant="outline-dark" disabled={file == 0} style={ { marginTop: "1.5rem" } }>
