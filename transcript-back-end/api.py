@@ -29,6 +29,13 @@ def upload_file():
         ai_state = True
     else:
         ai_state = False
+        
+    # Check flag that determines whether to include timestamps in transcript generation.
+    timestamps_state = request.form['timestamps']
+    if 'true' in timestamps_state:
+        timestamps_state = True
+    else:
+        timestamps_state = False
 
     transcription_mode = request.form['transcriptionMode']
 
@@ -45,7 +52,7 @@ def upload_file():
 
         file.save(input_file)
 
-        srt_to_html(input_file, output_file)
+        srt_to_html(input_file, output_file, timestamps_state)
         reformat_html(output_file, reformatted_file, italics_state)
         if ai_state:
             if transcription_mode == 'non-verbatim':
@@ -75,7 +82,7 @@ def upload_file():
 
         file.save(input_file)
 
-        scc_to_html(input_file, output_file)
+        scc_to_html(input_file, output_file, timestamps_state)
         reformat_html(output_file, reformatted_file, italics_state)
         if ai_state:
             if transcription_mode == 'non-verbatim':
