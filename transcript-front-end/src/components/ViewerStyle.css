@@ -45,6 +45,14 @@ p.highlight {
   background-color: #c2ceed;
 }
 
+p.dark-mode {
+  color: white;
+}
+
+h1.dark-mode {
+  color: whitesmoke;
+}
+
 .timestamp-bubble {
   position: absolute;
   display: block; 

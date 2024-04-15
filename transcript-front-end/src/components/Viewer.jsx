@@ -1,14 +1,15 @@
 import "./ViewerStyle.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import CurrentTranscriptContext from "../CurrentTranscriptContext";
 import aiIcon from "./icons/ai.svg"; 
 import downloadIcon from "./icons/download.svg";
-import noteIcon from "./icons/note.svg";
+import contrastModeIcon from "./icons/contrastMode.svg";
 import fontIcon from "./icons/font.svg";
 
 export default function Viewer(props) {
 
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
+    const [darkMode, setDarkMode] = useState(false);
 
     function createTimestampBubble(startTime, endTime) {
         const bubble = document.createElement('div');
@@ -52,6 +53,18 @@ export default function Viewer(props) {
         });
     }, [transcript]);
 
+    useEffect(() => {
+        if (darkMode) {
+            document.body.style = 'background: black;';
+            const paragraphs = document.querySelectorAll('p');
+            paragraphs.forEach(paragraph => paragraph.classList.add('dark-mode'));
+        } else {
+            document.body.style = 'background: white;';
+            const paragraphs = document.querySelectorAll('p');
+            paragraphs.forEach(paragraph => paragraph.classList.remove('dark-mode'));
+        }
+    }, [darkMode]);
+
     const handleDownload = () => {
         // Logic for downloading the transcript
     };
@@ -64,13 +77,9 @@ export default function Viewer(props) {
         // Logic for AI interaction
     };
 
-    const handleNotes = () => {
-        // Logic for taking notes
-    };
-
     return (
         <div>
-            <h1>Transcript</h1>
+            <h1 className={darkMode ? 'dark-mode' : ''} >Transcript</h1>
             {
                 transcript 
                 ? <div dangerouslySetInnerHTML={{ __html: transcript }} />
@@ -78,15 +87,15 @@ export default function Viewer(props) {
             }
             {
                 transcript
-                ? <div className="toolbar"> {/* Make sure the class name is a string */}
+                ? <div className="toolbar">
                     <button className="iconButton" onClick={handleDownload}>
-                        <img src={downloadIcon} alt="Download" /> {/* Use img tags for imported SVGs */}
+                        <img src={downloadIcon} alt="Download" />
                     </button>
                     <button className="iconButton" onClick={handleFontSize}>
                         <img src={fontIcon} alt="Font Size" />
                     </button>
-                    <button className="iconButton" onClick={handleNotes}>
-                        <img src={noteIcon} alt="Notes" />
+                    <button className="iconButton" onClick={() => setDarkMode((old) => !old)}>
+                        <img src={contrastModeIcon} alt="Dark Mode" />
                     </button>
                     <button className="iconButton" onClick={handleAI}>
                         <img src={aiIcon} alt="AI" />
