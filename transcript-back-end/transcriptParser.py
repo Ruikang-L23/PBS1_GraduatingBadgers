@@ -14,7 +14,7 @@ except ImportError:
 
 from pycaption import SRTReader
 
-def scc_to_html(input_file, output_file):
+def scc_to_html(input_file, output_file, time_stamp = False):
     with open(input_file, 'r') as f:
         scc_content = f.read()
 
@@ -31,10 +31,16 @@ def scc_to_html(input_file, output_file):
             for caption in captions_lang:
                 start = float_to_time_format(caption.start)
                 end = float_to_time_format(caption.end)
-                f.write(f'<p data-timestamp-start={start} data-timestamp-end={end}>{caption.get_text()}</p>\n<br>\n')
-        f.write('<script src="script.js"></script>\n</body>\n</html>')
+                if time_stamp == True:
+                    f.write(f'<p data-timestamp-start={start} data-timestamp-end={end}>{caption.get_text()}</p>\n<br>\n')
+                else:
+                    f.write(f'<p>{caption.get_text()}</p>\n<br>\n')
+        if time_stamp == True:
+            f.write('<script src="script.js"></script>\n</body>\n</html>')
+        else:
+            f.write('</body>\n</html>')
 
-def srt_to_html(input_file, output_file, encoding='ISO-8859-1'):
+def srt_to_html(input_file, output_file, encoding='ISO-8859-1', time_stamp = False):
     with open(input_file, 'r', encoding=encoding) as f:
         srt_content = f.read()
 
@@ -51,8 +57,14 @@ def srt_to_html(input_file, output_file, encoding='ISO-8859-1'):
             for caption in captions_lang:
                 start = float_to_time_format(caption.start)
                 end = float_to_time_format(caption.end)
-                f.write(f'<p data-timestamp-start="{start}" data-timestamp-end="{end}">{caption.get_text()}</p>\n<br>\n')
-        f.write('<script src="script.js"></script>\n</body>\n</html>')
+                if time_stamp == True:
+                    f.write(f'<p data-timestamp-start={start} data-timestamp-end={end}>{caption.get_text()}</p>\n<br>\n')
+                else:
+                    f.write(f'<p>{caption.get_text()}</p>\n<br>\n')
+        if time_stamp == True:
+            f.write('<script src="script.js"></script>\n</body>\n</html>')
+        else:
+            f.write('</body>\n</html>')
 
 def reformat_html(input_file, output_file, italics_state):
     with open(input_file, 'r') as f:
