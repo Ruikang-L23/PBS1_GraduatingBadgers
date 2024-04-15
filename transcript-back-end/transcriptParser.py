@@ -40,8 +40,8 @@ def scc_to_html(input_file, output_file, time_stamp = False):
         else:
             f.write('</body>\n</html>')
 
-def srt_to_html(input_file, output_file, encoding='ISO-8859-1', time_stamp = False):
-    with open(input_file, 'r', encoding=encoding) as f:
+def srt_to_html(input_file, output_file, time_stamp = False):
+    with open(input_file, 'r', encoding='ISO-8859-1') as f:
         srt_content = f.read()
 
     captions = SRTReader().read(srt_content)
