@@ -5,7 +5,7 @@ import CurrentTranscriptContext from '../CurrentTranscriptContext';
 
 export default function Navigation() {
 
-    const [transcript, setTranscript] = useState(0);
+    const [transcript, setTranscript] = useState(false);
 
     return (
         <div>

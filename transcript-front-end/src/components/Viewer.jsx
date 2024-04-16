@@ -29,7 +29,7 @@ export default function Viewer(props) {
     }
 
     useEffect(() => {
-        if (transcript.options.enableTimestamps) {
+        if (transcript && transcript.options.enableTimestamps) {
             const paragraphs = document.querySelectorAll('p');
             paragraphs.forEach(paragraph => {
                 paragraph.addEventListener('mouseover', event => {
@@ -104,9 +104,12 @@ export default function Viewer(props) {
                     <button className="iconButton" title={darkMode ? "Light Mode" : "Dark Mode"} onClick={() => setDarkMode((old) => !old)}>
                         <img src={contrastModeIcon} alt={darkMode ? "Light Mode" : "Dark Mode"} />
                     </button>
-                    <button className="iconButton" title={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} onClick={() => setAIFormatActive((old) => !old)}>
-                        <img src={aiIcon} alt={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} />
-                    </button>
+                    { 
+                        transcript.options.enableAI && 
+                        <button className="iconButton" title={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} onClick={() => setAIFormatActive((old) => !old)}>
+                            <img src={aiIcon} alt={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} />
+                        </button>
+                    }
                   </div>
                 : <></>
             }
