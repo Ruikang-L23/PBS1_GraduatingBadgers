@@ -28,31 +28,33 @@ export default function Viewer(props) {
     }
 
     useEffect(() => {
-        const paragraphs = document.querySelectorAll('p');
-        paragraphs.forEach(paragraph => {
-            paragraph.addEventListener('mouseover', event => {
-                paragraph.classList.add('highlight');
-                const startTime = paragraph.getAttribute('data-timestamp-start');
-                const endTime = paragraph.getAttribute('data-timestamp-end');
-                const bubble = createTimestampBubble(startTime, endTime);
-                document.body.appendChild(bubble);
-          
-                // Position the bubble next to the cursor
-                updateBubblePosition(event, bubble);
-                
-                // Update the bubble position as the cursor moves
-                document.addEventListener('mousemove', event => {
+        if (transcript.options.enableTimestamps) {
+            const paragraphs = document.querySelectorAll('p');
+            paragraphs.forEach(paragraph => {
+                paragraph.addEventListener('mouseover', event => {
+                    paragraph.classList.add('highlight');
+                    const startTime = paragraph.getAttribute('data-timestamp-start');
+                    const endTime = paragraph.getAttribute('data-timestamp-end');
+                    const bubble = createTimestampBubble(startTime, endTime);
+                    document.body.appendChild(bubble);
+            
+                    // Position the bubble next to the cursor
                     updateBubblePosition(event, bubble);
+                    
+                    // Update the bubble position as the cursor moves
+                    document.addEventListener('mousemove', event => {
+                        updateBubblePosition(event, bubble);
+                    });
+                });
+                paragraph.addEventListener('mouseout', () => {
+                    paragraph.classList.remove('highlight');
+                    const bubble = document.querySelector('.timestamp-bubble');
+                    if (bubble) {
+                        bubble.remove();
+                    }
                 });
             });
-            paragraph.addEventListener('mouseout', () => {
-                paragraph.classList.remove('highlight');
-                const bubble = document.querySelector('.timestamp-bubble');
-                if (bubble) {
-                    bubble.remove();
-                }
-            });
-        });
+        }
     }, [transcript]);
 
     /* A state change to either fontSize or darkMode will cause this function to be run.
@@ -87,7 +89,7 @@ export default function Viewer(props) {
             <h1 id="transcriptHeader">Transcript</h1>
             {
                 transcript 
-                ? <div dangerouslySetInnerHTML={{ __html: transcript }} />
+                ? <div dangerouslySetInnerHTML={{ __html: transcript.transcripts.baseTranscript }} />
                 : <p>Please upload a caption file using the upload page.</p>
             }
             {
