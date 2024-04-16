@@ -20,7 +20,7 @@
   
 .iconButton img {
   fill: #333; /* Icon color */
-  width: px; /* Icon size */
+  width: 24px; /* Icon size */
   height: 24px;
 }
   
@@ -35,14 +35,29 @@ body {
 
 p {
   color: black;
-  display: inline; /* Display the <p> element inline */
-  padding: 0; /* Remove any padding */
-  margin: 0; /* Remove any margin */
-  background-color: transparent; /* Set background color to transparent */
+  font-size: 1rem;
+  display: inline;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
 }
 
 p.highlight {
   background-color: #c2ceed;
+}
+
+p.dark-mode {
+  color: white;
+}
+
+h1 {
+  color: black;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+h1.dark-mode {
+  color: whitesmoke;
 }
 
 .timestamp-bubble {

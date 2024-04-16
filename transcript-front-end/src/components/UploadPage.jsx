@@ -11,7 +11,7 @@ export default function UploadPage(props) {
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
     const [italicSwitchState, setItalicSwitchState] = useState(false);
     const [aiSwitchState, setAISwitchState] = useState(true);
-    const [timestampsState, setTimestampsState] = useState(false);
+    const [timestampState, setTimestampState] = useState(false);
     const [transcriptionMode, setTranscriptionMode] = useState('verbatim');
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
     const validFileFormats = ['srt', 'scc'];
@@ -37,7 +37,7 @@ export default function UploadPage(props) {
         formData.append('file', file);
         formData.append('ai', aiSwitchState);
         formData.append('italics', italicSwitchState);
-        formData.append('timestamps', timestampsState);
+        formData.append('timestamp', timestampState);
         formData.append('transcriptionMode', transcriptionMode);
 
         fetch('http://localhost:5000/api/upload', {
@@ -45,7 +45,15 @@ export default function UploadPage(props) {
             body: formData
         })
         .then(res => res.text())
-        .then(text => setTranscript(text))
+        .then(text => setTranscript({
+            "options": {
+                "enableTimestamps": timestampState,
+                "enableAI": aiSwitchState
+            },
+            "transcripts": {
+                "baseTranscript": text
+            }
+        }))
 
         navigator("/viewer");
     }
@@ -101,8 +109,8 @@ export default function UploadPage(props) {
                         </div>
                         <div className="labeled-switch">
                             <Form.Check 
-                                defaultChecked={timestampsState} 
-                                onChange={() => setTimestampsState((old) => !old)}
+                                defaultChecked={timestampState} 
+                                onChange={() => setTimestampState((old) => !old)}
                                 type="switch"
                             />
                             <p className="option-label">Include timestamps?</p>
