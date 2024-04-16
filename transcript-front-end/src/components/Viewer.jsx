@@ -11,6 +11,7 @@ export default function Viewer(props) {
 
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
     const [darkMode, setDarkMode] = useState(false);
+    const [aiFormatActive, setAIFormatActive] = useState(false);
     const [fontSize, setFontSize] = useState(0);
 
     function createTimestampBubble(startTime, endTime) {
@@ -80,10 +81,6 @@ export default function Viewer(props) {
         // Logic for downloading the transcript
     };
 
-    const handleAI = () => {
-        // Logic for AI interaction
-    };
-
     return (
         <div>
             <h1 id="transcriptHeader">Transcript</h1>
@@ -95,20 +92,20 @@ export default function Viewer(props) {
             {
                 transcript
                 ? <div className="toolbar">
-                    <button className="iconButton" onClick={handleDownload}>
+                    <button className="iconButton" title="Download File" onClick={handleDownload}>
                         <img src={downloadIcon} alt="Download" />
                     </button>
-                    <button className="iconButton" disabled={fontSize >= 2} onClick={() => setFontSize((count) => count + 1)}>
+                    <button className="iconButton" title="Increase Font Size" disabled={fontSize >= 2} onClick={() => setFontSize((count) => count + 1)}>
                         <img src={increaseFontSizeIcon} alt="Increase Font Size" />
                     </button>
-                    <button className="iconButton" disabled={fontSize <= -2} onClick={() => setFontSize((count) => count - 1)}>
+                    <button className="iconButton" title="Decrease Font Size" disabled={fontSize <= -2} onClick={() => setFontSize((count) => count - 1)}>
                         <img src={decreaseFontSizeIcon} alt="Decrease Font Size" />
                     </button>
-                    <button className="iconButton" onClick={() => setDarkMode((old) => !old)}>
-                        <img src={contrastModeIcon} alt="Dark Mode" />
+                    <button className="iconButton" title={darkMode ? "Light Mode" : "Dark Mode"} onClick={() => setDarkMode((old) => !old)}>
+                        <img src={contrastModeIcon} alt={darkMode ? "Light Mode" : "Dark Mode"} />
                     </button>
-                    <button className="iconButton" onClick={handleAI}>
-                        <img src={aiIcon} alt="AI" />
+                    <button className="iconButton" title={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} onClick={() => setAIFormatActive((old) => !old)}>
+                        <img src={aiIcon} alt={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} />
                     </button>
                   </div>
                 : <></>
