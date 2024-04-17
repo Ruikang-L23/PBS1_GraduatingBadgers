@@ -13,6 +13,7 @@ export default function Viewer(props) {
     const [darkMode, setDarkMode] = useState(false);
     const [aiFormatActive, setAIFormatActive] = useState(false);
     const [fontSize, setFontSize] = useState(0);
+    const [transcriptHeaderText, setTranscriptHeaderText] = useState('Transcript');
 
     function createTimestampBubble(startTime, endTime) {
         const bubble = document.createElement('div');
@@ -23,12 +24,21 @@ export default function Viewer(props) {
       
     function updateBubblePosition(event, bubble) {
         const offsetX = 10;
-        const offsetY = -30; // Adjust the offset to position the bubble above the cursor
+        const offsetY = -30; // Adjust the offset to position the bubble above the cursor.
         bubble.style.left = event.pageX + offsetX + 'px';
         bubble.style.top = event.pageY + offsetY + 'px';
     }
 
+    /* A state change to either transcript or aiFormatActive will cause this function to be run.
+       The function changes the header text based on the current state of aiFormatActive.
+       If timestamps are enabled on a given transcript, it also creates event listeners for each <p> tag.
+    */
     useEffect(() => {
+        if (!aiFormatActive) {
+            setTranscriptHeaderText('Transcript');
+        } else {
+            setTranscriptHeaderText('Transcript (AI-modified)');
+        }
         if (transcript && transcript.options.enableTimestamps) {
             const paragraphs = document.querySelectorAll('p');
             paragraphs.forEach(paragraph => {
@@ -83,15 +93,14 @@ export default function Viewer(props) {
 
     return (
         <div>
-            <h1 id="transcriptHeader">Transcript</h1>
+            <h1 id="transcriptHeader">{transcriptHeaderText}</h1>
             {
                 transcript 
-                ? <div 
-                    dangerouslySetInnerHTML = {{ 
-                        __html: !aiFormatActive 
-                                ? transcript.transcripts.baseTranscript 
-                                : transcript && transcript.transcripts.aiTranscript ? transcript.transcripts.aiTranscript : <p>Artificial intelligence transcript formatting has not yet completed.</p>
-                    }} />
+                ? !aiFormatActive 
+                  ? <div dangerouslySetInnerHTML={{ __html: transcript.transcripts.baseTranscript }} />
+                  : transcript.transcripts.aiTranscript 
+                    ? <div dangerouslySetInnerHTML={{ __html: transcript.transcripts.aiTranscript }} />
+                    : <p>Artificial intelligence transcription has not yet completed.</p>
                 : <p>Please upload a caption file using the upload page.</p>
             }
             {
