@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
-import { Button } from "react-bootstrap";
-import { Form } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import CurrentTranscriptContext from "../CurrentTranscriptContext";
 import '../App.css';
@@ -9,6 +8,7 @@ export default function UploadPage(props) {
 
     const [file, setFile] = useState(0);
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
+    const [isUploading, setIsUploading] = useState(false);
     const [italicSwitchState, setItalicSwitchState] = useState(false);
     const [aiSwitchState, setAISwitchState] = useState(true);
     const [timestampState, setTimestampState] = useState(false);
@@ -35,27 +35,63 @@ export default function UploadPage(props) {
 
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('ai', aiSwitchState);
-        formData.append('italics', italicSwitchState);
-        formData.append('timestamp', timestampState);
-        formData.append('transcriptionMode', transcriptionMode);
+        formData.append('italicizeCues', italicSwitchState);
+        formData.append('enableTimestamps', timestampState);
 
+        setIsUploading(true);
         fetch('http://localhost:5000/api/upload', {
             method: "POST",
             body: formData
         })
-        .then(res => res.text())
-        .then(text => setTranscript({
-            "options": {
-                "enableTimestamps": timestampState,
-                "enableAI": aiSwitchState
-            },
-            "transcripts": {
-                "baseTranscript": text
+        .then(resp => {
+            if (!resp.ok) {
+                return resp.json().then(err => {
+                    throw new Error(err.msg);
+                });
             }
-        }))
+            return resp.text();
+        })
+        .then(text => {
+            const transcriptData = {
+                "options": {
+                    "enableTimestamps": timestampState,
+                    "enableAI": aiSwitchState
+                },
+                "transcripts": {
+                    "baseTranscript": text,
+                    "aiTranscript": false
+                }
+            } 
+            setTranscript(transcriptData);
+            navigator("/viewer");
+            setIsUploading(false);
 
-        navigator("/viewer");
+            if (aiSwitchState) {
+                formData.append('transcriptionMode', transcriptionMode);
+
+                fetch('http://localhost:5000/api/upload-ai', {
+                    method: "POST",
+                    body: formData
+                })
+                .then(resp => {
+                    if (!resp.ok) {
+                        return resp.json().then(err => {
+                            throw new Error(err.msg);
+                        });
+                    }
+                    return resp.text();
+                })
+                .then(text => {
+                    transcriptData.transcripts.aiTranscript = text;
+                    setTranscript(transcriptData);
+                    console.log(text);
+                })
+            } 
+        })
+        .catch(error => {
+            console.log(error);
+            setIsUploading(false);
+        })
     }
 
     return (
@@ -116,9 +152,13 @@ export default function UploadPage(props) {
                             <p className="option-label">Include timestamps?</p>
                         </div>
                     </Form.Group>
-                    <Button onClick={handleSubmit} variant="outline-dark" disabled={file == 0} style={ { marginTop: "1.5rem" } }>
-                        Submit
-                    </Button>
+                    { 
+                        !isUploading 
+                        ? <Button onClick={handleSubmit} variant="outline-dark" disabled={file == 0} style={ { marginTop: "1.5rem" } }>
+                            Submit
+                          </Button>
+                        : <Spinner animation="border" role="status" style={ { marginTop: "1.5rem" } }/>
+                    }
                 </Form>
             </div>
         </div>
