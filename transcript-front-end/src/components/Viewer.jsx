@@ -56,7 +56,7 @@ export default function Viewer(props) {
                 });
             });
         }
-    }, [transcript]);
+    }, [transcript, aiFormatActive]);
 
     /* A state change to either fontSize or darkMode will cause this function to be run.
        The function simply finds all of the <p> tags and the header, updating their styling. 
@@ -86,7 +86,12 @@ export default function Viewer(props) {
             <h1 id="transcriptHeader">Transcript</h1>
             {
                 transcript 
-                ? <div dangerouslySetInnerHTML={{ __html: transcript.transcripts.baseTranscript }} />
+                ? <div 
+                    dangerouslySetInnerHTML = {{ 
+                        __html: !aiFormatActive 
+                                ? transcript.transcripts.baseTranscript 
+                                : transcript && transcript.transcripts.aiTranscript ? transcript.transcripts.aiTranscript : <p>Artificial intelligence transcript formatting has not yet completed.</p>
+                    }} />
                 : <p>Please upload a caption file using the upload page.</p>
             }
             {
