@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from transcriptParser import scc_to_html, srt_to_html, reformat_html
 from utils import is_allowed_file, get_extension
-from aiUtils import toggle_mode, analyze_relevance, correct_grammar, remove_filler_words
-from organizeBySubjectMatter import organize_paragraphs_by_subject_matter
+from aiUtils import toggle_mode, analyze_relevance, correct_grammar, remove_filler_words, organize_by_subject_matter
 
 app = Flask(__name__)
 CORS(app)
@@ -11,103 +10,95 @@ CORS(app)
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return jsonify({"msg": "No file attached in request."}), 400
+        return jsonify({"msg": "An error occurred: No caption file included in request."}), 400
     
+    # Check that caption is in either a SCC or SRT file format.
     file = request.files['file']
     file_name = file.filename
-
-    # Check flag that determines whether to italicize non-verbal sounds.
-    italics_state = request.form['italics']
-    if 'true' in italics_state:
-        italics_state = True
-    else:    
-        italics_state = False
-
-    # Check flag that determines whether to utilize AI tools in transcript generation.
-    ai_state = request.form['ai']
-    if 'true' in ai_state:
-        ai_state = True
-    else:
-        ai_state = False
-        
-    # Check flag that determines whether to include timestamps in transcript generation.
-    timestamp_state = request.form['timestamp']
-    if 'true' in timestamp_state:
-        timestamp_state = True
-    else:
-        timestamp_state = False
-
-    transcription_mode = request.form['transcriptionMode']
-
-    if transcription_mode == 'non-verbatim' and ai_state == False:
-        return jsonify({"msg": "Non-Verbatim transcription is not possible with AI usage disabled."})
-
     if not is_allowed_file(file_name):
-        return jsonify({"msg": "Included file was not in an accepted format."}), 415
-    
-    if file and get_extension(file_name) == 'srt':
-        input_file = 'input.srt'
-        output_file = 'output.html'
-        reformatted_file = 'reformat.html'
+        return jsonify({"msg": f"An error occurred: '{get_extension(file_name).upper()}' is not an accepted caption file format."}), 415
 
-        file.save(input_file)
+    # Check for necessary flags and convert them to Python booleans.
+    try:
+        italics_state = request.form['italicizeCues']
+        italics_state = True if 'true' in italics_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: italicizeCues was not included in request."}), 400
+    try:
+        timestamp_state = request.form['enableTimestamps']
+        timestamp_state = True if 'true' in timestamp_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: enabledTimestamps was not included in request."}), 400
 
+    # Initialize all files and file names for transcription process.
+    input_file = 'input.' + get_extension(file_name)
+    output_file = 'output.html'
+    reformatted_file = 'reformat.html'
+    file.save(input_file)
+
+    # Parse caption file to create transcript.
+    if get_extension(file_name) == 'srt':
         srt_to_html(input_file, output_file, timestamp_state)
-        reformat_html(output_file, reformatted_file, italics_state)
-        if ai_state:
-            if transcription_mode == 'non-verbatim':
-                # TODO ask Oliver if the input file is already formatted and has italics <i> for the sounds 
-                analyze_relevance(reformatted_file, reformatted_file)
-                toggle_mode(reformatted_file, "non-verbatim")
-                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
-                # Run all AI formatting on reformatted_file if this flag is true.
-                # This means removing filler words, correcting grammar, and removing unrelated non-verbal cues.
-                # As well as, grouping paragraphs together by their context within the transcript.
-                print("Not yet implemented.\n")
-            else:
-                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
-                analyze_relevance(reformatted_file, reformatted_file)
-                # Run only AI formatting that will not change the content of the transcript.
-                # This only includes grouping paragraphs together by their context.
-                # Possibly includes removing unrelated non-verbal cues.
-                print("Not yet implemented\n")
-                
-
-        return send_file(reformatted_file, as_attachment=True), 200
-
-    if file and get_extension(file_name) == 'scc':
-        input_file = 'input.scc'
-        output_file = 'output.html'
-        reformatted_file = 'reformat.html'
-
-        file.save(input_file)
-
+    else:
         scc_to_html(input_file, output_file, timestamp_state)
-        reformat_html(output_file, reformatted_file, italics_state)
-        if ai_state:
-            if transcription_mode == 'non-verbatim':
-                analyze_relevance(reformatted_file, reformatted_file)
-                toggle_mode(reformatted_file, "non-verbatim")
-                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
-                # Run all AI formatting on reformatted_file if this flag is true.
-                # This means removing filler words, correcting grammar, and removing unrelated non-verbal cues.
-                # As well as, grouping paragraphs together by their context within the transcript.
-                print("Not yet implemented.\n")
-            else:
-                organize_paragraphs_by_subject_matter(reformatted_file, reformatted_file)
-                analyze_relevance(reformatted_file, reformatted_file)
-                # Run only AI formatting that will not change the content of the transcript.
-                # This only includes grouping paragraphs together by their context.
-                # Possibly includes removing unrelated non-verbal cues.
-                print("Not yet implemented\n")
+    reformat_html(output_file, reformatted_file, italics_state)
         
-        return send_file(reformatted_file, as_attachment=True), 200
+    return send_file(reformatted_file, as_attachment=True), 200
 
-# This should be added in another ticket (PBS-38).
-# It will make working with the transcript on the frontend much easier and allow us to add more features.
-@app.route('/api/upload-json', methods=['POST'])
-def upload_file_json():
-    return jsonify({"msg": "Caption file to JSON conversion is not yet implemented."}), 501
+@app.route('/api/upload-ai', methods=['POST'])
+def upload_file_ai():
+    # Check that caption file is contained in request form.
+    if 'file' not in request.files:
+        return jsonify({"msg": "An error occurred: No caption file included in request."}), 400
+    
+    # Check that caption is in either a SCC or SRT file format.
+    file = request.files['file']
+    file_name = file.filename
+    if not is_allowed_file(file_name):
+        return jsonify({"msg": f"An error occurred: '{get_extension(file_name).upper()}' is not an accepted caption file format."}), 415
+    
+    # Check for necessary flags and convert them to Python booleans.
+    try:
+        italics_state = request.form['italicizeCues']
+        italics_state = True if 'true' in italics_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: italicizeCues was not included in request."}), 400
+    try:
+        timestamp_state = request.form['enableTimestamps']
+        timestamp_state = True if 'true' in timestamp_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: enabledTimestamps was not included in request."}), 400
+
+    # Store transcription mode from request form in a variable.
+    try:
+        transcription_mode = request.form['transcriptionMode']
+        if transcription_mode != 'verbatim' and transcription_mode != 'non-verbatim':
+            return jsonify({"msg": "An error occurred: transcriptionMode must have value of either 'verbatim' or 'non-verbatim'."}), 400    
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: transcriptionMode was not included in request."}), 400
+
+    # Initialize all files and file names for transcription process.
+    input_file = 'input.' + get_extension(file_name)
+    output_file = 'output.html'
+    reformatted_file = 'reformat.html'
+    ai_reformatted_file = 'aiReformat.html'
+    file.save(input_file)
+
+    # Parse caption file to create transcript.
+    if get_extension(file_name) == 'srt':
+        srt_to_html(input_file, output_file, timestamp_state)
+    else:
+        scc_to_html(input_file, output_file, timestamp_state)
+    reformat_html(output_file, reformatted_file, italics_state)
+    if transcription_mode == 'verbatim':
+        organize_by_subject_matter(reformatted_file, ai_reformatted_file)
+    else:
+        # We need to merge our organize paragraphs by subject matter and correct grammar functions into one AI prompt to minimize runtime.
+        # Function to remove filler words here.
+        # Organize by subject matter and correct grammar prompt here.
+        organize_by_subject_matter(reformatted_file, ai_reformatted_file)
+
+    return send_file(ai_reformatted_file, as_attachment=True), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -117,20 +117,20 @@ def organize_paragraphs_by_subject_matter(input_html_path, output_html_path):
     with open(output_html_path, 'w', encoding='utf-8') as file:
         file.write(final_result)
 
-if __name__ == '__main__':
-    input_html_path = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
-    output_html_path = "../CaptionSamples/Sample1/organized_by_subject_matter.html"
+# if __name__ == '__main__':
+#    input_html_path = "reformat.html"
+#    output_html_path = "aiReformat.html"
 
     # This is the function that you want to call from api.py
-    organize_paragraphs_by_subject_matter(input_html_path, output_html_path)
+#    organize_paragraphs_by_subject_matter(input_html_path, output_html_path)
 
     # Calculate runtime of program
-    end_time = time.time()
-    total_seconds = end_time - start_time
+#    end_time = time.time()
+#    total_seconds = end_time - start_time
 
     # Convert total seconds to minutes and seconds
-    minutes = total_seconds // 60
-    seconds = total_seconds % 60
+#    minutes = total_seconds // 60
+#    seconds = total_seconds % 60
 
     # Print the runtime in minutes and seconds
-    print(f"Runtime of the AI formatting is {int(minutes)} minutes and {int(seconds)} seconds")
+#   print(f"Runtime of the AI formatting is {int(minutes)} minutes and {int(seconds)} seconds")
