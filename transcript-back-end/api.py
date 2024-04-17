@@ -7,31 +7,28 @@ from aiUtils import toggle_mode, analyze_relevance, correct_grammar, remove_fill
 app = Flask(__name__)
 CORS(app)
 
-# TODO: Add more error checking here to make the other parameters exist. If they don't we should send a 400 with an error message, currently it will just send a 500.
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return jsonify({"msg": "No file attached in request."}), 400
+        return jsonify({"msg": "An error occurred: No caption file included in request."}), 400
     
     # Check that caption is in either a SCC or SRT file format.
     file = request.files['file']
     file_name = file.filename
     if not is_allowed_file(file_name):
-        return jsonify({"msg": "Included file was not in an accepted format."}), 415
+        return jsonify({"msg": f"An error occurred: '{get_extension(file_name).upper()}' is not an accepted caption file format."}), 415
 
-    # Convert italics flag to Python boolean.
-    italics_state = request.form['italicizeCues']
-    if 'true' in italics_state:
-        italics_state = True
-    else:    
-        italics_state = False
-        
-    # Convert timestamp flag to Python boolean.
-    timestamp_state = request.form['enableTimestamps']
-    if 'true' in timestamp_state:
-        timestamp_state = True
-    else:
-        timestamp_state = False
+    # Check for necessary flags and convert them to Python booleans.
+    try:
+        italics_state = request.form['italicizeCues']
+        italics_state = True if 'true' in italics_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: italicizeCues was not included in request."}), 400
+    try:
+        timestamp_state = request.form['enableTimestamps']
+        timestamp_state = True if 'true' in timestamp_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: enabledTimestamps was not included in request."}), 400
 
     # Initialize all files and file names for transcription process.
     input_file = 'input.' + get_extension(file_name)
@@ -48,35 +45,37 @@ def upload_file():
         
     return send_file(reformatted_file, as_attachment=True), 200
 
-# TODO: Add more error checking here to make the other parameters exist. If they don't we should send a 400 with an error message, currently it will just send a 500.
 @app.route('/api/upload-ai', methods=['POST'])
 def upload_file_ai():
     # Check that caption file is contained in request form.
     if 'file' not in request.files:
-        return jsonify({"msg": "No file attached in request."}), 400
+        return jsonify({"msg": "An error occurred: No caption file included in request."}), 400
     
     # Check that caption is in either a SCC or SRT file format.
     file = request.files['file']
     file_name = file.filename
     if not is_allowed_file(file_name):
-        return jsonify({"msg": "Included file was not in an accepted format."}), 415
+        return jsonify({"msg": f"An error occurred: '{get_extension(file_name).upper()}' is not an accepted caption file format."}), 415
     
-    # Convert italics flag to Python boolean.
-    italics_state = request.form['italicizeCues']
-    if 'true' in italics_state:
-        italics_state = True
-    else:    
-        italics_state = False
-        
-    # Convert timestamp flag to Python boolean.
-    timestamp_state = request.form['enableTimestamps']
-    if 'true' in timestamp_state:
-        timestamp_state = True
-    else:
-        timestamp_state = False
+    # Check for necessary flags and convert them to Python booleans.
+    try:
+        italics_state = request.form['italicizeCues']
+        italics_state = True if 'true' in italics_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: italicizeCues was not included in request."}), 400
+    try:
+        timestamp_state = request.form['enableTimestamps']
+        timestamp_state = True if 'true' in timestamp_state.lower() else False
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: enabledTimestamps was not included in request."}), 400
 
     # Store transcription mode from request form in a variable.
-    transcription_mode = request.form['transcriptionMode']
+    try:
+        transcription_mode = request.form['transcriptionMode']
+        if transcription_mode != 'verbatim' and transcription_mode != 'non-verbatim':
+            return jsonify({"msg": "An error occurred: transcriptionMode must have value of either 'verbatim' or 'non-verbatim'."}), 400    
+    except KeyError as e:
+        return jsonify({"msg": "An error occurred: transcriptionMode was not included in request."}), 400
 
     # Initialize all files and file names for transcription process.
     input_file = 'input.' + get_extension(file_name)
@@ -95,6 +94,8 @@ def upload_file_ai():
         organize_by_subject_matter(reformatted_file, ai_reformatted_file)
     else:
         # We need to merge our organize paragraphs by subject matter and correct grammar functions into one AI prompt to minimize runtime.
+        # Function to remove filler words here.
+        # Organize by subject matter and correct grammar prompt here.
         organize_by_subject_matter(reformatted_file, ai_reformatted_file)
 
     return send_file(ai_reformatted_file, as_attachment=True), 200
