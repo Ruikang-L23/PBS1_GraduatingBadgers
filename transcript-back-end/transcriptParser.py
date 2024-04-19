@@ -96,8 +96,8 @@ def reformat_html(input_file, output_file, italics_state):
                 second_part = text[split_index:]
                 formatted_text = f'<b>{first_part}</b>{second_part}'
             else:
-                # Add "Unknown" to specify missing speaker name
-                formatted_text = f'<b>Unknown:</b> {text[2:]}'
+                # Print out the text, this could be changed to Speaker: or Unknown: is desired.
+                formatted_text = f'- {text[2:]}'
             
         # Case 2: If the text starts with "["
         elif text.startswith("["):
