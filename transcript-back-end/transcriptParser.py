@@ -106,6 +106,7 @@ def reformat_html(input_file, output_file, italics_state):
                 formatted_text = '<i>' + text + '</i>'
             else:
                 formatted_text = text
+            formatted_text = formatted_text.replace("] [", "]<br>[")
 
         # Case 3: If it is not either case
         else:
@@ -172,12 +173,12 @@ def html_to_txt(input_html, output_txt):
 #    file.write(filtered_transcript)
 
 # generate the unformatted html file
-input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
-output_file = "../CaptionSamples/Sample1/sample1_scc.html"
-scc_to_html(input_file, output_file)
-input_file = "../CaptionSamples/Sample1/2BAW0101HDST.srt"
-output_file = "../CaptionSamples/Sample1/sample1_srt.html"
-srt_to_html(input_file, output_file)
+#input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
+#output_file = "../CaptionSamples/Sample1/sample1_scc.html"
+#scc_to_html(input_file, output_file)
+#input_file = "../CaptionSamples/Sample1/2BAW0101HDST.srt"
+#output_file = "../CaptionSamples/Sample1/sample1_srt.html"
+#srt_to_html(input_file, output_file)
 
 # format html file
 input_file = "../CaptionSamples/Sample1/sample1_scc.html"
@@ -188,19 +189,19 @@ output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
 reformat_html(input_file, output_file, True)
 
 # Remove irrelevant sound from the file
-input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
-analyze_relevance(input_file, output_file)
+#input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+#output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
+#analyze_relevance(input_file, output_file)
 
 # fragments json file
-input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
-output_file = "../CaptionSamples/Sample1/sample1_fragments.json"
-scc_to_json(input_file, output_file)
+#input_file = "../CaptionSamples/Sample1/2BAW0101HDST.scc"
+#output_file = "../CaptionSamples/Sample1/sample1_fragments.json"
+#scc_to_json(input_file, output_file)
 
 # html to txt
-input_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
-output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.txt"
-html_to_txt(input_file, output_file)
-input_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
-output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.txt"
-html_to_txt(input_file, output_file)
+#input_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
+#output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.txt"
+#html_to_txt(input_file, output_file)
+#input_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
+#output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.txt"
+#html_to_txt(input_file, output_file)
