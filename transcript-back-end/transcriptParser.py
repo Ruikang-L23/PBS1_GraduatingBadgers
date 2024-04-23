@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import json
 from utils import float_to_time_format
 from aiUtils import analyze_relevance, correct_grammar, remove_filler_words, toggle_mode
+import string
 
 try:
     from pycaption import SCCReader
@@ -102,11 +103,8 @@ def reformat_html(input_file, output_file, italics_state):
         # Case 2: If the text starts with "["
         elif text.startswith("["):
             # Italicize the text
-            if italics_state is True:
-                formatted_text = '<i>' + text + '</i>'
-            else:
-                formatted_text = text
-            formatted_text = formatted_text.replace("] [", "]<br>[")
+            formatted_text = '<i>' + text + '</i>' if italics_state else text
+            formatted_text = formatted_text.replace("]\n[", "]<br \>[")
 
         # Case 3: If it is not either case
         else:
