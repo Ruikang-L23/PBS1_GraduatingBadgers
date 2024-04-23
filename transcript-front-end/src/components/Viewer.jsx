@@ -88,7 +88,15 @@ export default function Viewer(props) {
     }, [fontSize, darkMode]);
 
     const handleDownload = () => {
-        // Logic for downloading the transcript
+        const transcriptToDL = transcript.options.enableAI ? transcript.transcripts.aiTranscript : transcript.transcripts.baseTranscript;
+        const blob = new Blob([transcriptToDL], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'transcript.html'; // Name of the file to be downloaded
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     return (
