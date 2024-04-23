@@ -31,6 +31,9 @@ export default function UploadPage(props) {
     }
 
     const handleSubmit = (e) => {
+        sessionStorage.clear()
+        setTranscript(false)
+
         e.preventDefault();
 
         const formData = new FormData();
@@ -39,6 +42,7 @@ export default function UploadPage(props) {
         formData.append('enableTimestamps', timestampState);
 
         setIsUploading(true);
+
         fetch('http://localhost:5000/api/upload', {
             method: "POST",
             body: formData
@@ -63,6 +67,7 @@ export default function UploadPage(props) {
                 }
             } 
             setTranscript(transcriptData);
+            sessionStorage.setItem('transcriptData', JSON.stringify(transcriptData));
             navigator("/viewer");
             setIsUploading(false);
 
@@ -84,6 +89,7 @@ export default function UploadPage(props) {
                 .then(text => {
                     transcriptData.transcripts.aiTranscript = text;
                     setTranscript(transcriptData);
+                    sessionStorage.setItem('transcriptData', JSON.stringify(transcriptData));
                     console.log(text);
                 })
             } 

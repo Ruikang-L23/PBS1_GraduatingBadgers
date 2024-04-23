@@ -18,10 +18,6 @@ def remove_breaks_within_speaker_text(html_content):
 
     for br in soup.find_all('br'):
         next_tag = br.find_next_sibling()
-        # Revisit for PBS-54: There is an issue here causing a request to completely fail when next_tag is None.
-        # This issue occurs when not including timestamps in the request.
-        if next_tag is None:
-            break
         if not is_new_speaker(next_tag):
             br.decompose()
 
@@ -70,6 +66,8 @@ def process_segment_with_chat(segment):
     the subject matter before and after the ".</p>" are different. Do not add a <br/> anywhere else.
     Also, do not add <br/> if the next line has a colon (:).
     Also correct any spacing problems (e.g. "ofThe Capital" should change to "of The Capital")
+    Also correct any grammatical errors
+    Also change or remove any unnecessary filler words
 
     Don't remove or change ANYTHING else other than this, especially the <html>, <head>, <body> and <link> tags
     Don't alter the start or end, even if it is incomplete code. 
@@ -121,20 +119,20 @@ def organize_paragraphs_by_subject_matter(input_html_path, output_html_path):
     with open(output_html_path, 'w', encoding='utf-8') as file:
         file.write(final_result)
 
-# if __name__ == '__main__':
-#    input_html_path = "reformat.html"
-#    output_html_path = "aiReformat.html"
+if __name__ == '__main__':
+    input_html_path = 'sample1_scc_formatted.html'
+    output_html_path = 'organized_by_subject_matter.html'
 
     # This is the function that you want to call from api.py
-#    organize_paragraphs_by_subject_matter(input_html_path, output_html_path)
+    organize_by_subject_matter(input_html_path, output_html_path)
 
     # Calculate runtime of program
-#    end_time = time.time()
-#    total_seconds = end_time - start_time
+    end_time = time.time()
+    total_seconds = end_time - start_time
 
     # Convert total seconds to minutes and seconds
-#    minutes = total_seconds // 60
-#    seconds = total_seconds % 60
+    minutes = total_seconds // 60
+    seconds = total_seconds % 60
 
     # Print the runtime in minutes and seconds
-#   print(f"Runtime of the AI formatting is {int(minutes)} minutes and {int(seconds)} seconds")
+    print(f"Runtime of the AI formatting is {int(minutes)} minutes and {int(seconds)} seconds")

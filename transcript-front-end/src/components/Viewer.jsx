@@ -15,6 +15,19 @@ export default function Viewer(props) {
     const [fontSize, setFontSize] = useState(0);
     const [transcriptHeaderText, setTranscriptHeaderText] = useState('Transcript');
 
+    /* Get's data from the browser's sessionStorage in case the user refreshes the page
+    */
+    useEffect(() => {
+        const sessionData = sessionStorage.getItem('transcriptData');
+        if (sessionData) {
+            const parsedData = JSON.parse(sessionData);
+            // Set state if it's different from the current state to avoid unnecessary updates
+            if (!transcript) {
+                setTranscript(parsedData);
+            }
+        }
+    }, []);
+
     function createTimestampBubble(startTime, endTime) {
         const bubble = document.createElement('div');
         bubble.classList.add('timestamp-bubble');
@@ -85,7 +98,7 @@ export default function Viewer(props) {
         }
         paragraphs.forEach(paragraph => paragraph.style.setProperty('font-size', (1 + (fontSize * 0.15) + "rem")));
         header.style.setProperty('font-size', (2 + (fontSize * 0.3) + "rem"));
-    }, [fontSize, darkMode]);
+    }, [fontSize, darkMode, aiFormatActive]);
 
     const handleDownload = () => {
         const transcriptToDL = transcript.options.enableAI ? transcript.transcripts.aiTranscript : transcript.transcripts.baseTranscript;
@@ -108,7 +121,7 @@ export default function Viewer(props) {
                   ? <div dangerouslySetInnerHTML={{ __html: transcript.transcripts.baseTranscript }} />
                   : transcript.transcripts.aiTranscript 
                     ? <div dangerouslySetInnerHTML={{ __html: transcript.transcripts.aiTranscript }} />
-                    : <p>Artificial intelligence transcription has not yet completed.</p>
+                    : <p>Artificial intelligence transcription has not yet completed. This process usually takes 2-3 minutes. If you have waited over 5 minutes or refreshed while waiting, please try re-uploading your caption file.</p>
                 : <p>Please upload a caption file using the upload page.</p>
             }
             {
