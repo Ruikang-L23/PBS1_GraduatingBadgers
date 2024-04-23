@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
 from transcriptParser import scc_to_html, srt_to_html, reformat_html
 from utils import is_allowed_file, get_extension
@@ -28,7 +28,7 @@ def upload_file():
         timestamp_state = request.form['enableTimestamps']
         timestamp_state = True if 'true' in timestamp_state.lower() else False
     except KeyError as e:
-        return jsonify({"msg": "An error occurred: enabledTimestamps was not included in request."}), 400
+        return jsonify({"msg": "An error occurred: enableTimestamps was not included in request."}), 400
 
     # Initialize all files and file names for transcription process.
     input_file = 'input.' + get_extension(file_name)
@@ -42,8 +42,11 @@ def upload_file():
     else:
         scc_to_html(input_file, output_file, timestamp_state)
     reformat_html(output_file, reformatted_file, italics_state)
+
+    response = make_response(send_file(reformatted_file, as_attachment=True))
+    response.headers['Access-Control-Allow-Origin'] = '*'
         
-    return send_file(reformatted_file, as_attachment=True), 200
+    return response, 200
 
 @app.route('/api/upload-ai', methods=['POST'])
 def upload_file_ai():
@@ -67,7 +70,7 @@ def upload_file_ai():
         timestamp_state = request.form['enableTimestamps']
         timestamp_state = True if 'true' in timestamp_state.lower() else False
     except KeyError as e:
-        return jsonify({"msg": "An error occurred: enabledTimestamps was not included in request."}), 400
+        return jsonify({"msg": "An error occurred: enableTimestamps was not included in request."}), 400
 
     # Store transcription mode from request form in a variable.
     try:
@@ -98,7 +101,10 @@ def upload_file_ai():
         # Organize by subject matter and correct grammar prompt here.
         organize_by_subject_matter(reformatted_file, ai_reformatted_file)
 
-    return send_file(ai_reformatted_file, as_attachment=True), 200
+    response = make_response(send_file(ai_reformatted_file, as_attachment=True))
+    response.headers['Access-Control-Allow-Origin'] = '*'
+
+    return response, 200
 
 if __name__ == '__main__':
     app.run(debug=True)
