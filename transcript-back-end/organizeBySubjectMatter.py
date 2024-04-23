@@ -18,6 +18,10 @@ def remove_breaks_within_speaker_text(html_content):
 
     for br in soup.find_all('br'):
         next_tag = br.find_next_sibling()
+        # Revisit for PBS-54: There is an issue here causing a request to completely fail when next_tag is None.
+        # This issue occurs when not including timestamps in the request.
+        if next_tag is None:
+            break
         if not is_new_speaker(next_tag):
             br.decompose()
 
