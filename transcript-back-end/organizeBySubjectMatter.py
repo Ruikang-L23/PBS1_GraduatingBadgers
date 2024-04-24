@@ -18,6 +18,8 @@ def remove_breaks_within_speaker_text(html_content):
 
     for br in soup.find_all('br'):
         next_tag = br.find_next_sibling()
+        if next_tag is None:
+            break
         if not is_new_speaker(next_tag):
             br.decompose()
 
@@ -56,23 +58,22 @@ def split_html_content(html_content, max_length=4000):
 
     return segments
 
-def process_segment_with_chat(segment):
+def process_segment_with_chat(segment, transcription_mode):
     """Process a single segment of HTML content with GPT using the chat model endpoint."""
     openai.api_key = os.environ["OpenAI"]
 
     # Prompt to give to ChatGBT API
-    prompt_description = """
+    prompt_description = f"""
     In this HTML code, do not remove any <br/>. However, add a <br/> after a ".</p>" if 
     the subject matter before and after the ".</p>" are different. Do not add a <br/> anywhere else.
     Also, do not add <br/> if the next line has a colon (:).
-    Also correct any spacing problems (e.g. "ofThe Capital" should change to "of The Capital")
-    Also correct any grammatical errors
-    Also change or remove any unnecessary filler words
+    Also correct any spacing problems (e.g. "ofThe Capital" should change to "of The Capital").
+    '{ "Also correct any grammatical errors and remove any unnessary filler words (e.g. um and uh)." if transcription_mode == 'non-verbatim' else "" }'
 
-    Don't remove or change ANYTHING else other than this, especially the <html>, <head>, <body> and <link> tags
+    Don't remove or change ANYTHING else other than this, especially the <html>, <head>, <body> and <link> tags.
     Don't alter the start or end, even if it is incomplete code. 
     Don't add any `````` or anything like that.
-    Don't say anything else, just output the final fixed HTML code
+    Don't say anything else, just output the final fixed HTML code.
     """
 
     # Create a new chat with a single message containing the prompt and the segment
@@ -91,7 +92,7 @@ def process_segment_with_chat(segment):
     else:
         return ""  # Return an empty string if there's no valid response
 
-def organize_paragraphs_by_subject_matter(input_html_path, output_html_path):
+def organize_paragraphs_by_subject_matter(input_html_path, output_html_path, transcription_mode):
     # Load the input HTML file's content
     with open(input_html_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
@@ -105,7 +106,7 @@ def organize_paragraphs_by_subject_matter(input_html_path, output_html_path):
     combined_result = ""
     with ThreadPoolExecutor() as executor:
         # Submit all tasks and store future objects in a list
-        futures = [executor.submit(process_segment_with_chat, segment) for segment in segments]
+        futures = [executor.submit(process_segment_with_chat, segment, transcription_mode) for segment in segments]
         # Ensure results are processed in the order they were submitted
         for future in futures:
             combined_result += future.result()
@@ -124,7 +125,7 @@ if __name__ == '__main__':
     output_html_path = 'organized_by_subject_matter.html'
 
     # This is the function that you want to call from api.py
-    organize_by_subject_matter(input_html_path, output_html_path)
+    organize_by_subject_matter(input_html_path, output_html_path, 'verbatim')
 
     # Calculate runtime of program
     end_time = time.time()

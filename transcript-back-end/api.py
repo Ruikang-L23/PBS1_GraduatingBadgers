@@ -93,13 +93,7 @@ def upload_file_ai():
     else:
         scc_to_html(input_file, output_file, timestamp_state)
     reformat_html(output_file, reformatted_file, italics_state)
-    if transcription_mode == 'verbatim':
-        organize_by_subject_matter(reformatted_file, ai_reformatted_file)
-    else:
-        # We need to merge our organize paragraphs by subject matter and correct grammar functions into one AI prompt to minimize runtime.
-        # Function to remove filler words here.
-        # Organize by subject matter and correct grammar prompt here.
-        organize_by_subject_matter(reformatted_file, ai_reformatted_file)
+    organize_by_subject_matter(reformatted_file, ai_reformatted_file, transcription_mode)
 
     response = make_response(send_file(ai_reformatted_file, as_attachment=True))
     response.headers['Access-Control-Allow-Origin'] = '*'
