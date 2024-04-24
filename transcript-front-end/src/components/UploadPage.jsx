@@ -101,7 +101,7 @@ export default function UploadPage(props) {
     }
 
     return (
-        <div>
+        <div style={ { margin: "1rem" } }> 
             <h1>Upload</h1>
             <div className="center-card">
                 <Form>

@@ -28,7 +28,7 @@ export default function Navigation() {
                     </Nav>
                 </Container>
             </Navbar>
-            <div style={ { margin: "1rem" } }>
+            <div style={{ margin: "0" }}>
                 <CurrentTranscriptContext.Provider value={[transcript, setTranscript]}>
                     <Outlet />
                 </CurrentTranscriptContext.Provider>

@@ -6,6 +6,7 @@ import downloadIcon from "./icons/download.svg";
 import contrastModeIcon from "./icons/contrastMode.svg";
 import increaseFontSizeIcon from './icons/increaseFontSize.svg'
 import decreaseFontSizeIcon from './icons/decreaseFontSize.svg'
+import arrowIcon from './images/arrow.png';
 
 export default function Viewer(props) {
 
@@ -14,6 +15,8 @@ export default function Viewer(props) {
     const [aiFormatActive, setAIFormatActive] = useState(false);
     const [fontSize, setFontSize] = useState(0);
     const [transcriptHeaderText, setTranscriptHeaderText] = useState('Transcript');
+    const [toolbarVisible, setToolbarVisible] = useState(true);
+    
 
     /* Get's data from the browser's sessionStorage in case the user refreshes the page
     */
@@ -113,7 +116,7 @@ export default function Viewer(props) {
     };
 
     return (
-        <div>
+        <div style={ { margin: "1rem" } }>
             <h1 id="transcriptHeader">{transcriptHeaderText}</h1>
             {
                 transcript 
@@ -124,30 +127,34 @@ export default function Viewer(props) {
                     : <p>Artificial intelligence transcription has not yet completed. This process usually takes 2-3 minutes. If you have waited over 5 minutes or refreshed while waiting, please try re-uploading your caption file.</p>
                 : <p>Please upload a caption file using the upload page.</p>
             }
-            {
-                transcript
-                ? <div className="toolbar">
-                    <button className="iconButton" title="Download File" onClick={handleDownload}>
-                        <img src={downloadIcon} alt="Download" />
-                    </button>
-                    <button className="iconButton" title="Increase Font Size" disabled={fontSize >= 2} onClick={() => setFontSize((count) => count + 1)}>
-                        <img src={increaseFontSizeIcon} alt="Increase Font Size" />
-                    </button>
-                    <button className="iconButton" title="Decrease Font Size" disabled={fontSize <= -2} onClick={() => setFontSize((count) => count - 1)}>
-                        <img src={decreaseFontSizeIcon} alt="Decrease Font Size" />
-                    </button>
-                    <button className="iconButton" title={darkMode ? "Light Mode" : "Dark Mode"} onClick={() => setDarkMode((old) => !old)}>
-                        <img src={contrastModeIcon} alt={darkMode ? "Light Mode" : "Dark Mode"} />
-                    </button>
-                    { 
-                        transcript.options.enableAI && 
-                        <button className="iconButton" title={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} onClick={() => setAIFormatActive((old) => !old)}>
-                            <img src={aiIcon} alt={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} />
+            {transcript && (
+            <div className="toolbar-container">
+                <button className="toggle-button" onClick={() => setToolbarVisible(!toolbarVisible)}>
+                    <img style={{ width: '20px', height: '20px' }} src={toolbarVisible ? arrowIcon : arrowIcon} />
+                </button>
+                {toolbarVisible && (
+                    <div className="toolbar">
+                        <button className="iconButton" title="Download File" onClick={handleDownload}>
+                            <img src={downloadIcon} alt="Download" />
                         </button>
-                    }
-                  </div>
-                : <></>
-            }
+                        <button className="iconButton" title="Increase Font Size" disabled={fontSize >= 2} onClick={() => setFontSize((count) => count + 1)}>
+                            <img src={increaseFontSizeIcon} alt="Increase Font Size" />
+                        </button>
+                        <button className="iconButton" title="Decrease Font Size" disabled={fontSize <= -2} onClick={() => setFontSize((count) => count - 1)}>
+                            <img src={decreaseFontSizeIcon} alt="Decrease Font Size" />
+                        </button>
+                        <button className="iconButton" title={darkMode ? "Light Mode" : "Dark Mode"} onClick={() => setDarkMode((old) => !old)}>
+                            <img src={contrastModeIcon} alt={darkMode ? "Light Mode" : "Dark Mode"} />
+                        </button>
+                        {transcript.options.enableAI && 
+                            <button className="iconButton" title={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} onClick={() => setAIFormatActive((old) => !old)}>
+                                <img src={aiIcon} alt={aiFormatActive ? "View Standard Transcription" : "View AI Transcription"} />
+                            </button>
+                        }
+                    </div>
+                )}
+            </div>
+            )}
         </div>
     );
 }

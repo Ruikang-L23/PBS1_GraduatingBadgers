@@ -1,32 +1,46 @@
-.toolbar {
-    position: fixed;
-    top: 30%; /* Center vertically */
-    right: 0;
-    transform: translateY(-50%); /* Shift up by half the toolbar height to center */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5px;
-    background: #f1f1f1; /* Light grey background */
-    border-radius: 5px 0 0 5px; /* Rounded corners on the left side */
+.toolbar-container {
+  display: flex;
+  align-items: center; /* Centers the toggle button vertically with the toolbar */
+  position: fixed;
+  top: 30%;
+  right: 0;
+  transform: translateY(-50%);
 }
-  
+
+.toggle-button {
+  margin-right: -10px; /* Add some space between the button and the toolbar */
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  background: #f1f1f1;
+  border-radius: 5px 0 0 5px;
+}
+
 .iconButton {
   background: none;
   border: none;
   cursor: pointer;
   margin: 5px 0;
 }
-  
+
 .iconButton img {
-  fill: #333; /* Icon color */
-  width: 24px; /* Icon size */
+  fill: #333;
+  width: 24px;
   height: 24px;
 }
-  
+
 .iconButton:hover {
   background: #A0A0A0;
 }
+
 
 body {
   font-size: 20px;
@@ -73,5 +87,7 @@ h1.dark-mode {
   line-height: 1.2;
   color: #ffff;
 }
-  
+
+
+
   

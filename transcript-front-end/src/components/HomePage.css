@@ -13,8 +13,11 @@
     font-size: large;
 }
 
+
 .mainbody {
     background-color: blue;
+    margin: 0;
+    padding: 0;
 }
 
 .div1 {
