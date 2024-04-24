@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,114.4,300,440..540;1,6..12,114.4,300,440..540&display=swap');
+
+
+.primary-font {
+    font-family: 'Lora', serif; /* Primary font for the whole body */
+    color: aliceblue;
+    font-size: xxx-large;
+    }
+
+.secondary-font {
+    font-family: 'Nunito Sans', sans-serif; /* Secondary font */
+    color: aliceblue;
+    font-size: large;
+}
+
+.mainbody {
+    background-color: blue;
+}
+
+.div1 {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('./images/Blues1.png');
+    background-size: cover;
+    background-position: center; 
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Black tint with 50% opacity */
+}
+
+.div1a {
+    color: rgb(255, 255, 255); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-image-section {
+    text-align: center;
+    color: white;
+}
+  
+.text-content {
+    background: #001235; 
+    padding: 100px; 
+}
+  
+.image-content {
+    background-image: url('./images/converted.png'); 
+    background-size: cover; 
+    background-position: center; 
+    height: 50vh; 
+}
+
+.rounded-blur-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.rounded-blur-button:hover {
+    background-color: #ffffff;
+    color: #000000;
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35);
+}
+
+.div2 {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url('./images/Blues2.png');
+    background-size: cover;
+    background-position: center; 
+}
+
+.process-section {
+    color: white;
+    background-color: black;
+    padding: 40px;
+    text-align: center;
+}
+
+.process-section h2 {
+    margin-bottom: 30px;
+}
+
+.process-steps {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    }
+
+.step {
+    margin: 20px 100px;
+    text-align: left;
+}
+
+.step-number {
+    font-size: 65px;
+    line-height: 75px;
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: white;
+    color: black; 
+    text-align: center;
+    margin-bottom: 10%;
+}
+
+.step-details h3 {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+}
+
+.step-details p {
+    font-size: 14px;
+    margin: 0;
+}
+
+.feature-section {
+    display: flex;
+    justify-content: space-around;
+    background-image: url('./images/Blues3.png'); 
+    align-items: center; 
+    padding: 40px 0;
+    background-size: cover;
+    background-position: center;
+    color: white; 
+    padding: 40px 0;
+    text-align: center; 
+    position: relative;
+}
+.feature {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px; 
+    margin: 0 10px; 
+}
+
+.feature-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1; 
+}
+  
+.feature h3 {
+    font-size: 1.5em; 
+    margin-bottom: 25px;  
+    text-align: center;
+}
+  
+.feature p {
+    font-size: 1em; 
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .feature-section {
+      flex-direction: column; 
+    }
+  
+    .feature {
+      margin-bottom: 20px;
+    }
+}
+
+.footer {
+    padding: 20px;
+    background-color: #000; 
+    color: #fff; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.footer-content {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+  
+.footer-logo {
+    height: 50px; 
+    margin-right: 20px; 
+}
+  
+  
+.footer-rights {
+    margin-left: auto;
+}
