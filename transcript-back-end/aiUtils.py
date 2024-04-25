@@ -132,8 +132,8 @@ def toggle_mode(input_file, mode):
         with open(filtered_file, 'w') as f:
             f.write(filtered_content)
 
-def organize_by_subject_matter(input_file, output_file):
-    organize_paragraphs_by_subject_matter(input_file, output_file)
+def organize_by_subject_matter(input_file, output_file, transcription_mode):
+    organize_paragraphs_by_subject_matter(input_file, output_file, transcription_mode)
 
 # Remove irrelevant sound from the file
 # input_file = "../CaptionSamples/Sample1/sample1_scc.html"

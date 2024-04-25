@@ -56,31 +56,34 @@ export default function Viewer(props) {
             setTranscriptHeaderText('Transcript (AI-modified)');
         }
         if (transcript && transcript.options.enableTimestamps) {
-            const paragraphs = document.querySelectorAll('p');
-            paragraphs.forEach(paragraph => {
-                paragraph.addEventListener('mouseover', event => {
-                    paragraph.classList.add('highlight');
-                    const startTime = paragraph.getAttribute('data-timestamp-start');
-                    const endTime = paragraph.getAttribute('data-timestamp-end');
-                    const bubble = createTimestampBubble(startTime, endTime);
-                    document.body.appendChild(bubble);
-            
-                    // Position the bubble next to the cursor
-                    updateBubblePosition(event, bubble);
-                    
-                    // Update the bubble position as the cursor moves
-                    document.addEventListener('mousemove', event => {
+            // Do not place timestamps if AI transcript is not yet completed.
+            if (!(aiFormatActive && !(transcript.transcripts.aiTranscript))) {
+                const paragraphs = document.querySelectorAll('p');
+                paragraphs.forEach(paragraph => {
+                    paragraph.addEventListener('mouseover', event => {
+                        paragraph.classList.add('highlight');
+                        const startTime = paragraph.getAttribute('data-timestamp-start');
+                        const endTime = paragraph.getAttribute('data-timestamp-end');
+                        const bubble = createTimestampBubble(startTime, endTime);
+                        document.body.appendChild(bubble);
+                
+                        // Position the bubble next to the cursor
                         updateBubblePosition(event, bubble);
+                        
+                        // Update the bubble position as the cursor moves
+                        document.addEventListener('mousemove', event => {
+                            updateBubblePosition(event, bubble);
+                        });
+                    });
+                    paragraph.addEventListener('mouseout', () => {
+                        paragraph.classList.remove('highlight');
+                        const bubble = document.querySelector('.timestamp-bubble');
+                        if (bubble) {
+                            bubble.remove();
+                        }
                     });
                 });
-                paragraph.addEventListener('mouseout', () => {
-                    paragraph.classList.remove('highlight');
-                    const bubble = document.querySelector('.timestamp-bubble');
-                    if (bubble) {
-                        bubble.remove();
-                    }
-                });
-            });
+            }
         }
     }, [transcript, aiFormatActive]);
 
@@ -104,7 +107,8 @@ export default function Viewer(props) {
     }, [fontSize, darkMode, aiFormatActive]);
 
     const handleDownload = () => {
-        const transcriptToDL = transcript.options.enableAI ? transcript.transcripts.aiTranscript : transcript.transcripts.baseTranscript;
+        // Download the transcript that the user is currently viewing.
+        const transcriptToDL = aiFormatActive ? transcript.transcripts.aiTranscript : transcript.transcripts.baseTranscript;
         const blob = new Blob([transcriptToDL], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
