@@ -178,12 +178,12 @@ def html_to_txt(input_html, output_txt):
 #srt_to_html(input_file, output_file)
 
 # format html file
-input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
-reformat_html(input_file, output_file, True)
-input_file = "../CaptionSamples/Sample1/sample1_srt.html"
-output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
-reformat_html(input_file, output_file, True)
+#input_file = "../CaptionSamples/Sample1/sample1_scc.html"
+#output_file = "../CaptionSamples/Sample1/sample1_scc_formatted.html"
+#reformat_html(input_file, output_file, True)
+#input_file = "../CaptionSamples/Sample1/sample1_srt.html"
+#output_file = "../CaptionSamples/Sample1/sample1_srt_formatted.html"
+#reformat_html(input_file, output_file, True)
 
 # Remove irrelevant sound from the file
 #input_file = "../CaptionSamples/Sample1/sample1_scc.html"

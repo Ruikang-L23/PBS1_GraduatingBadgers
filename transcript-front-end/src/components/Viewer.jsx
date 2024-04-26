@@ -94,7 +94,7 @@ export default function Viewer(props) {
         const paragraphs = document.querySelectorAll('p');
         const header = document.getElementById('transcriptHeader');
         if (darkMode) {
-            document.body.style = 'background: black;';
+            document.body.style = 'background: #1F1F1F;';
             paragraphs.forEach(paragraph => paragraph.classList.add('dark-mode'));
             header.classList.add('dark-mode');
         } else {
