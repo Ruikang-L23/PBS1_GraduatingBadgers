@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useCallback } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useDropzone } from "react-dropzone";
 import CurrentTranscriptContext from "../CurrentTranscriptContext";
 import '../App.css';
 
@@ -8,6 +9,7 @@ export default function UploadPage(props) {
 
     const [file, setFile] = useState(0);
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
+    const [fileName, setFileName] = useState('');
     const [isUploading, setIsUploading] = useState(false);
     const [italicSwitchState, setItalicSwitchState] = useState(false);
     const [aiSwitchState, setAISwitchState] = useState(true);
@@ -19,16 +21,29 @@ export default function UploadPage(props) {
 
     const handleFileUpload = (e) => {
         e.preventDefault();
-        const files = e.target.files;
-        const fileName = files[0].name;
+        processFile(e.target.files[0]);
+    }
+    
+    const handleDrop = useCallback(acceptedFiles => {
+        processFile(acceptedFiles[0]);
+    }, []);
+
+    const processFile = (file) => {
+        const fileName = file.name;
         if (validFileFormats.includes(fileName.split(".")[1])) {
             setFileFormatTextClass("text-muted");
-            setFile(files[0]);
+            setFile(file);
+            setFileName(fileName);
         } else {
             setFileFormatTextClass("text-danger");
             setFile(0);
+            setFileName('');
         }
-    }
+    };
+
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({ 
+        handleDrop
+    });
 
     const handleSubmit = (e) => {
         sessionStorage.clear()
@@ -107,7 +122,15 @@ export default function UploadPage(props) {
                 <Form>
                     <Form.Group>
                         <Form.Label style={ { marginBottom: "1.5rem" } }>Caption File</Form.Label>
-                        <Form.Control type="file" className="caption-upload" onChange={handleFileUpload}></Form.Control>
+                        <div {...getRootProps()} className="dropzone">
+                            <input {...getInputProps()} />
+                            {fileName ? (
+                                <p className="text-success">Uploaded: {fileName}</p>
+                            ) : (
+                                <p>{isDragActive ? "Drop the files here ..." : "Drag 'n' drop some files here, or click to select files below"}</p>
+                            )}
+                            <Form.Control type="file" className="caption-upload" onChange={handleFileUpload}></Form.Control>
+                        </div>
                         <Form.Text className={fileFormatTextClass}>Accepts only SRT and SCC caption files.</Form.Text>
                     </Form.Group>
                     <Form.Group>
