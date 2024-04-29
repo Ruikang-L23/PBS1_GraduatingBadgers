@@ -66,7 +66,7 @@ def srt_to_html(input_file, output_file, time_stamp = False):
         else:
             f.write('</body>\n</html>')
 
-def reformat_html(input_file, output_file, italics_state):
+def reformat_html(input_file, output_file, italics_state, ai_state):
     with open(input_file, 'r') as f:
         content = f.read()
 
@@ -97,7 +97,10 @@ def reformat_html(input_file, output_file, italics_state):
                 formatted_text = f'<b>{first_part}</b>{second_part}'
             else:
                 # Print out the text, this could be changed to Speaker: or Unknown: is desired.
-                formatted_text = f'- {text[2:]}'
+                if ai_state:
+                    formatted_text = text[2:]
+                else:
+                    formatted_text = f'- {text[2:]}'
             
         # Case 2: If the text starts with "["
         elif text.startswith("["):

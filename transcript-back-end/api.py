@@ -41,7 +41,7 @@ def upload_file():
         srt_to_html(input_file, output_file, timestamp_state)
     else:
         scc_to_html(input_file, output_file, timestamp_state)
-    reformat_html(output_file, reformatted_file, italics_state)
+    reformat_html(output_file, reformatted_file, italics_state, False)
 
     response = make_response(send_file(reformatted_file, as_attachment=True))
     response.headers['Access-Control-Allow-Origin'] = '*'
@@ -92,7 +92,7 @@ def upload_file_ai():
         srt_to_html(input_file, output_file, timestamp_state)
     else:
         scc_to_html(input_file, output_file, timestamp_state)
-    reformat_html(output_file, reformatted_file, italics_state)
+    reformat_html(output_file, reformatted_file, italics_state, True)
     organize_by_subject_matter(reformatted_file, ai_reformatted_file, transcription_mode)
 
     response = make_response(send_file(ai_reformatted_file, as_attachment=True))
