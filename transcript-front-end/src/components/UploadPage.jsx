@@ -10,7 +10,7 @@ export default function UploadPage(props) {
     const [fileFormatTextClass, setFileFormatTextClass] = useState("text-muted");
     const [isUploading, setIsUploading] = useState(false);
     const [italicSwitchState, setItalicSwitchState] = useState(false);
-    const [aiSwitchState, setAISwitchState] = useState(true);
+    const [aiSwitchState, setAISwitchState] = useState(false);
     const [timestampState, setTimestampState] = useState(false);
     const [transcriptionMode, setTranscriptionMode] = useState('verbatim');
     const [transcript, setTranscript] = useContext(CurrentTranscriptContext);
