@@ -2,16 +2,7 @@ from bs4 import BeautifulSoup
 import json
 from utils import float_to_time_format
 from aiUtils import analyze_relevance, correct_grammar, remove_filler_words, toggle_mode
-
-try:
-    from pycaption import SCCReader
-except ImportError:
-    import subprocess
-    import sys
-
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "pycaption"])
-    from pycaption import SCCReader
-
+from pycaption import SCCReader
 from pycaption import SRTReader
 
 def scc_to_html(input_file, output_file, time_stamp = False):
