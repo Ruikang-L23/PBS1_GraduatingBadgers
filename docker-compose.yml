@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build: 
+      context: ./transcript-front-end
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "5173:6390"
+    volumes:
+      - ./transcript-front-end:/frontend
+
+  backend:
+    build:
+      context: ./transcript-back-end/
+      dockerfile: backend.Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./transcript-back-end:/backend
