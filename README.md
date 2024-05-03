@@ -13,4 +13,5 @@
 **Frontend:**
 1. Navigate to the transcript-front-end folder.
 2. Run `npm install` to install necessary dependencies for the frontend.
-3. Run `npm run dev` to start up the frontend on your machine.
+3. Run `npm install react-dropzone` to install the react-dropzone package that enables drag-and-drop file input functionality.
+4. Run `npm run dev` to start up the frontend on your machine.
