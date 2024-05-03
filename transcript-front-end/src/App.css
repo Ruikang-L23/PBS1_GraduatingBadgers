@@ -1,3 +1,4 @@
+/* Styling for centering cards on the page */
 .center-card {
     border: 3px solid;
     border-radius: 12px;
@@ -13,45 +14,48 @@
     box-shadow: 3px 3px 1px black;
 }
 
-
+/* Styling for form labels */
 .form-label {
     font-weight: bold;
     font-size: large;
 }
 
+/* Border styling for captions on uploads */
 .caption-upload {
     border: 1px solid;
 }
 
+/* Layout for labeled switches */
 .labeled-switch {
     margin-top: 1rem;
     align-content: center;
     display: flex;
 }
 
+/* Styling options for labels */
 .option-label {
     font-size: 1.1rem;
     color: rgba(33, 37, 41, 0.95);
 }
 
+/* Active radio label styling */
 .radio-label {
     font-size: 1.1rem;
     margin-right: 1rem;
     color: rgba(33, 37, 41, 0.95);   
 }
 
+/* Muted radio label styling */
 .muted-radio-label {
     font-size: 1.1rem;
     margin-right: 1rem;
     color: rgba(33, 37, 41, 0.65);      
 }
 
+/* Base styling for navbar */
 .navbar {
     position: sticky;
     top: 0;
     z-index: 1020;  /* Ensures the navbar stays above other content */
-}
-
-.navbar {
     background-color: rgba(0, 0, 0, 0.8) !important; /* Using RGBA for background transparency */
 }
