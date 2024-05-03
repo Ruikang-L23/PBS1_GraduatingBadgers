@@ -13,6 +13,6 @@ services:
       context: ./transcript-back-end/
       dockerfile: backend.Dockerfile
     ports:
-      - "5001:5000"
+      - "5000:5000"
     volumes:
       - ./transcript-back-end:/backend
