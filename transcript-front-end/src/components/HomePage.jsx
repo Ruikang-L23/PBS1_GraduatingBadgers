@@ -7,7 +7,10 @@ import logo from '../components/images/logo.png'
 export default function HomePage(props) {
 
     return (
-        <div className="mainbody">
+        <div className="mainbody" style={{backgroundColor: '#00008B'}}>
+            <div>
+                
+            </div>
             <div className="div1">
                 <div className="overlay div1a">
                     <h1 className="primary-font" style={{fontSize: '350%'}}>Transform Your <br></br>Subtitles Into<br></br>Web Ready Formats</h1>
