@@ -1,16 +1,15 @@
-import "./HomePage.css"
-import React from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../components/images/logo.png'
+// Importing necessary resources and components
+import "./HomePage.css" // Styles specific to HomePage
+import React from 'react'; // React library import for component creation
+import { Link } from 'react-router-dom'; // Import Link for navigation without page refresh
+import logo from '../components/images/logo.png'; // Import logo image
 
-
+// HomePage component definition
 export default function HomePage(props) {
 
     return (
         <div className="mainbody" style={{backgroundColor: '#00008B'}}>
-            <div>
-                
-            </div>
+            {/* Hero section with a call to action and overlay effect */}
             <div className="div1">
                 <div className="overlay div1a">
                     <h1 className="primary-font" style={{fontSize: '350%'}}>Transform Your <br></br>Subtitles Into<br></br>Web Ready Formats</h1>
@@ -20,6 +19,7 @@ export default function HomePage(props) {
                     </Link>
                 </div>
             </div>
+            {/* Section for additional information with alternating text */}
             <div className="text-image-section">
                 <div className="text-content">
                     <h1 className="primary-font">Effortlessly convert SRT and SCC files into clean, accessible HTML with our state-of-the-art tools.</h1>
@@ -27,6 +27,7 @@ export default function HomePage(props) {
                 <div className="image-content">
                 </div>
             </div>
+            {/* Section highlighting benefits of using the service */}
             <div className="div2">
                 <div className="overlay div1a">
                     <h1 className="primary-font" style={{padding: '20px'}}>Why Choose Our Services?</h1>
@@ -40,6 +41,7 @@ export default function HomePage(props) {
                     <p className="secondary-font" style={{fontSize: '100%'}}>No technical expertise needed with our simple, intuitive interface.</p>
                 </div>
             </div>
+            {/* Step-by-step guide section describing the process */}
             <div className="process-section">
                 <h2 className="primary-font" style={{fontSize: '250%', padding: '20px'}}>How it works</h2>
                 <div className="process-steps">
@@ -66,6 +68,7 @@ export default function HomePage(props) {
                     </div>
                 </div>
             </div>
+            {/* Features section providing extra information about the service benefits */}
             <div className="feature-section">
                 <div className="feature">
                     <h3 className="primary-font">Free to use</h3>
@@ -80,6 +83,7 @@ export default function HomePage(props) {
                     <p className="secondary-font">Your converted HTML files are yours to keep forever.</p>
                 </div>
             </div>
+            {/* Footer section with copyright and logo */}
             <footer className="footer">
                 <div className="footer-content">
                     <img src={logo} alt="PBS Wisconsin Logo" className="footer-logo" />

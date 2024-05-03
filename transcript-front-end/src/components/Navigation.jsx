@@ -1,10 +1,13 @@
+// Import necessary React, Bootstrap components, and context
 import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
 import CurrentTranscriptContext from '../CurrentTranscriptContext';
 import logo from './images/logo.png'
 
+// Define the Navigation component
 export default function Navigation() {
+    // State to manage transcript availability
     const [transcript, setTranscript] = useState(false);
 
     return (
@@ -27,6 +30,7 @@ export default function Navigation() {
                     </Nav>
                 </Container>
             </Navbar>
+            {/* Context provider to manage transcript data across components */}
             <div style={{ margin: "0" }}>
                 <CurrentTranscriptContext.Provider value={[transcript, setTranscript]}>
                     <Outlet />

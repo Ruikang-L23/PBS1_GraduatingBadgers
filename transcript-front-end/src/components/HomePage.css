@@ -1,45 +1,49 @@
+/* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,114.4,300,440..540;1,6..12,114.4,300,440..540&display=swap');
 
-
+/* Primary and secondary font styles */
 .primary-font {
-    font-family: 'Lora', serif; /* Primary font for the whole body */
-    color: aliceblue;
-    font-size: xxx-large;
-    }
+    font-family: 'Lora', serif; /* Serif font for headings */
+    color: aliceblue; /* Light blue text color for readability */
+    font-size: xxx-large; /* Very large font size for emphasis */
+}
 
 .secondary-font {
-    font-family: 'Nunito Sans', sans-serif; /* Secondary font */
-    color: aliceblue;
-    font-size: large;
+    font-family: 'Nunito Sans', sans-serif; /* Sans-serif font for body text */
+    color: aliceblue; /* Light blue text color to match the primary font */
+    font-size: large; /* Larger font size for better readability */
 }
 
-
+/* Main body background and padding */
 .mainbody {
-    background-color: blue;
-    margin: 0;
-    padding: 0;
+    background-color: blue; /* Solid blue background for the entire page */
+    margin: 0; /* Removes default margin */
+    padding: 0; /* Removes default padding */
 }
 
+/* Styles for the main hero image area */
 .div1 {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background-image: url('./images/Blues1.png');
-    background-size: cover;
-    background-position: center; 
+    position: relative; /* Establishes a positioning context for absolute children */
+    width: 100%; /* Full width to cover the parent container */
+    height: 100vh; /* Full viewport height */
+    background-image: url('./images/Blues1.png'); /* Background image for hero section */
+    background-size: cover; /* Ensures the background image covers the entire div */
+    background-position: center; /* Centers the background image */
 }
 
+/* Overlay styling for adding dark tint over the hero image */
 .overlay {
-    position: absolute;
+    position: absolute; /* Positions overlay relative to nearest positioned ancestor */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Black tint with 50% opacity */
+    background: rgba(0, 0, 0, 0.5); /* Black background with 50% opacity for darkening effect */
 }
 
+/* Styling for centered content within hero sections */
 .div1a {
-    color: rgb(255, 255, 255); 
+    color: rgb(255, 255, 255); /* White text for contrast */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,55 +51,62 @@
     text-align: center;
 }
 
+/* Section for text and images */
 .text-image-section {
-    text-align: center;
-    color: white;
+    text-align: center; /* Centers text horizontally */
+    color: white; /* White text color */
 }
-  
+
+/* Text content styling within text-image section */
 .text-content {
-    background: #001235; 
-    padding: 100px; 
+    background: #001235; /* Dark blue background for text content */
+    padding: 100px; /* Spacious padding around text */
 }
-  
+
+/* Image content styling */
 .image-content {
-    background-image: url('./images/converted.png'); 
-    background-size: cover; 
-    background-position: center; 
-    height: 50vh; 
+    background-image: url('./images/converted.png'); /* Display image */
+    background-size: cover; /* Cover the entire content area */
+    background-position: center; /* Center the background image */
+    height: 50vh; /* Set height to half of the viewport height */
 }
 
+/* Generic button styling with rounded corners and blur effect */
 .rounded-blur-button {
-    background-color: #000000;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    background-color: #000000; /* Dark background for the button */
+    color: white; /* White text for readability */
+    border: none; /* No border */
+    padding: 10px 20px; /* Padding around text */
+    font-size: 16px; /* Medium font size */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* Subtle shadow for 3D effect */
+    backdrop-filter: blur(10px); /* Blur effect for background */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
+/* Hover effects for button to change background and text color for user interaction feedback */
 .rounded-blur-button:hover {
-    background-color: #ffffff;
-    color: #000000;
-    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35);
+    background-color: #ffffff; /* White background on hover for visual change */
+    color: #000000; /* Black text on hover for stark contrast and visibility */
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.35); /* Enhanced shadow for a deeper 3D effect on hover */
 }
 
+/* Additional styles for the second hero section with another large background image */
 .div2 {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    background-image: url('./images/Blues2.png');
-    background-size: cover;
-    background-position: center; 
+    position: relative; /* Relative positioning for layered styling with overlays */
+    width: 100%; /* Full width to span across the entire viewport */
+    height: 100vh; /* Maintaining full viewport height for consistent visual impact */
+    background-image: url('./images/Blues2.png'); /* Secondary hero image for thematic variation */
+    background-size: cover; /* Cover ensures the image completely fills the div */
+    background-position: center; /* Ensures the image is centered for optimal display */
 }
 
+/* Styling for the process section, detailing steps in a high-contrast, visually appealing manner */
 .process-section {
-    color: white;
-    background-color: black;
-    padding: 40px;
-    text-align: center;
+    color: white; /* White text on a dark background enhances legibility */
+    background-color: black; /* Solid black background provides maximum contrast for the white text */
+    padding: 40px; /* Uniform padding creates a spacious layout, focusing attention on the text */
+    text-align: center; /* Center alignment for text standardizes the layout and enhances readability */
 }
 
 .process-section h2 {
@@ -113,18 +124,19 @@
     text-align: left;
 }
 
+/* Styling for individual steps in the process section, emphasizing sequence and importance */
 .step-number {
-    font-size: 65px;
-    line-height: 75px;
-    height: 75px;
-    width: 75px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 10px;
-    background-color: white;
-    color: black; 
-    text-align: center;
-    margin-bottom: 10%;
+    font-size: 65px; /* Very large font size draws attention to the step number */
+    line-height: 75px; /* Line height slightly greater than font size for proper vertical alignment */
+    height: 75px; /* Fixed height for a consistent circular shape */
+    width: 75px; /* Fixed width to match height for a perfect circle */
+    border-radius: 50%; /* Fully rounded to create a circle */
+    display: inline-block; /* Allows the number to sit inline with adjacent text */
+    margin-right: 10px; /* Right margin separates the number from text for clarity */
+    background-color: white; /* Bright white background ensures the black text stands out */
+    color: black; /* Dark text provides strong contrast against the white background */
+    text-align: center; /* Centers the text within the circle for balanced aesthetics */
+    margin-bottom: 10%; /* Bottom margin creates space below the number for subsequent text */
 }
 
 .step-details h3 {
@@ -182,40 +194,39 @@
     text-align: center;
 }
 
+/* Media query adjusts layout for smaller screens, stacking features vertically for better accessibility */
 @media (max-width: 768px) {
     .feature-section {
-      flex-direction: column; 
+      flex-direction: column; /* Changes layout to vertical stacking on small screens */
     }
   
     .feature {
-      margin-bottom: 20px;
+      margin-bottom: 20px; /* Adds space between stacked elements for clearer separation */
     }
 }
 
+/* Footer styling for consistent branding and copyright information */
 .footer {
-    padding: 20px;
-    background-color: #000; 
-    color: #fff; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 20px; /* Padding around the footer content for spacing */
+    background-color: #000; /* Black background for footer, consistent with overall color scheme */
+    color: #fff; /* White text for footer, ensuring visibility against the dark background */
+    display: flex; /* Uses flexbox to layout children horizontally */
+    justify-content: space-between; /* Spreads child elements evenly across the footer */
+    align-items: center; /* Vertically aligns children to the center of the footer */
 }
   
 .footer-content {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+    display: flex; /* Flexbox for horizontal layout */
+    align-items: center; /* Centers children vertically within the footer */
+    justify-content: space-between; /* Even spacing between elements for a balanced look */
+    width: 100%; /* Full width to use the entire footer area */
 }
   
 .footer-logo {
-    height: 50px; 
-    margin-right: 20px; 
+    height: 50px; /* Sets a fixed height for the logo for consistency */
+    margin-right: 20px; /* Right margin provides spacing from adjacent text */
 }
   
-  
 .footer-rights {
-    margin-left: auto;
+    margin-left: auto; /* Automatically adjusts the left margin to push this element to the right */
 }
