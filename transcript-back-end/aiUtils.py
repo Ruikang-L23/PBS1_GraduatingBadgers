@@ -134,16 +134,3 @@ def toggle_mode(input_file, mode):
 
 def organize_by_subject_matter(input_file, output_file, transcription_mode):
     organize_paragraphs_by_subject_matter(input_file, output_file, transcription_mode)
-
-# Remove irrelevant sound from the file
-# input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-# output_file = "../CaptionSamples/Sample1/sample1_scc_analyzed.html"
-# analyze_relevance(input_file, output_file)
-
-
-# Non-Verbatim mode
-# input_file = "../CaptionSamples/Sample1/sample1_scc.html"
-# mode = "non-verbatim"
-# input_file = "../CaptionSamples/Sample1/mini.html"
-# toggle_mode(input_file, mode)
-

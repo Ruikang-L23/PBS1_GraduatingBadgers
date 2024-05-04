@@ -1,7 +1,7 @@
 import { useContext, useState, useCallback } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-// import { useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import CurrentTranscriptContext from "../CurrentTranscriptContext";
 import '../App.css';
 
