@@ -58,7 +58,7 @@ export default function UploadPage(props) {
 
         setIsUploading(true);
 
-        fetch('http://localhost:5000/api/upload', {
+        fetch('http://127.0.0.1:5000/api/upload', {
             method: "POST",
             body: formData
         })
@@ -89,7 +89,7 @@ export default function UploadPage(props) {
             if (aiSwitchState) {
                 formData.append('transcriptionMode', transcriptionMode);
 
-                fetch('http://localhost:5000/api/upload-ai', {
+                fetch('http://127.0.0.1:5000/api/upload-ai', {
                     method: "POST",
                     body: formData
                 })
