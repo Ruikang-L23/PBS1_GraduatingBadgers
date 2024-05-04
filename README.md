@@ -11,8 +11,9 @@ Repository Link: [https://github.com/Ruikang-L23/PBS1_GraduatingBadgers/blob/mai
     `pip install flask`
     `pip install flask_cors`
     `pip install openai==0.28`
-3. Create a system environment variable on your machine with the variable name being "OpenAI" and the variable value being the API key. You probably have to restart your PC afterwards.
-4. Start the API on your machine by typing `python api.py` into your terminal.
+    `pip install pycaption`
+4. Create a system environment variable on your machine with the variable name being "OpenAI" and the variable value being the API key. You probably have to restart your PC afterwards.
+5. Start the API on your machine by typing `python api.py` into your terminal.
 
 **Frontend:**
 1. Navigate to the transcript-front-end folder.
