@@ -36,7 +36,7 @@ There are some minor bugs. For example, when the backend finally finishes proces
 
 Our team will try to fix Docker within a week after 5/3/24, since our mentors are asking for this functionality. Some additional features that this project would benefit from include:
 
-NPM has a known bug that causes it to ignore optional dependencies [More Info Here](https://github.com/npm/cli/issues/4828)
+NPM has a [known bug](https://github.com/npm/cli/issues/4828) that causes it to ignore optional dependencies.
 The backend container works and running `npm run dev` on a local machine with the containerized backend functions.
 
 - Fixing the bugs listed above
