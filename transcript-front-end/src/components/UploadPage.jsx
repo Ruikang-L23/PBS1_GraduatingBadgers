@@ -42,7 +42,9 @@ export default function UploadPage(props) {
     };
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({ 
-        handleDrop
+        onDrop: handleDrop,
+        noClick: true,   
+        noKeyboard: true   
     });
 
     const handleSubmit = (e) => {
