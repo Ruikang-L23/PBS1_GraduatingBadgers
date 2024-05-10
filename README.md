@@ -20,7 +20,7 @@ Repository Link: [https://github.com/Ruikang-L23/PBS1_GraduatingBadgers/blob/mai
 2. Run `npm install` to install necessary dependencies for the frontend.
 3. Run `npm run dev` to start up the frontend on your machine.
 
-**Normally, you could also navigate to the root of the project and run `docker-compose up` to run both the backend and frontend on Docker. However, this isn't completely working yet.**
+**Normally, you could also navigate to the root of the project and run `docker-compose up` to run both the backend and frontend on Docker. However, this isn't completely working yet (more about this at the bottom of this README).**
 
 ## How the Code Works:
 
@@ -30,15 +30,13 @@ When a user uploads a transcript file on the webpage, the frontend sends two req
 
 Most of the basic functions work, including uploading a file, viewing and scrolling through a transcript, switching between the normal transcript and the AI transcript, and various other features such as Dark Mode, increasing/decreasing text size, downloading the HTML of the transcript, and persistence of the transcripts a after refreshing the page.
 
-There are some minor bugs. For example, when the backend finally finishes processing the AI transcript and sends it back to the frontend, the webpage won't automatically show the AI transcript like it should. Instead, the user has to switch back to the normal transcript and then back to the AI transcript for it to show. The upload form also had a bug introduced recently (related to drag and drop file upload) that prompts you to upload the file twice. Additionally, as of 5/3/24, Docker is not working as intended.
+There are some minor bugs. For example, when the backend finally finishes processing the AI transcript and sends it back to the frontend, the webpage won't automatically show the AI transcript like it should. Instead, the user has to switch back to the normal transcript and then back to the AI transcript for it to show. Additionally, as of 5/10/24, Docker is not working as intended (more about this below).
 
 ## What's Next?
 
-Our team will try to fix Docker within a week after 5/3/24, since our mentors are asking for this functionality. Some additional features that this project would benefit from include:
+NPM has a [known bug](https://github.com/npm/cli/issues/4828) that causes it to ignore optional dependencies when using Docker. However, the backend container works and can run with a localized frontend; this can be done by running `npm run dev` on a local machine to run a local frontend, and this will work with the containerized backend functions.
 
-NPM has a [known bug](https://github.com/npm/cli/issues/4828) that causes it to ignore optional dependencies.
-The backend container works and running `npm run dev` on a local machine with the containerized backend functions.
-
+Some additional features that this project would benefit from include:
 - Fixing the bugs listed above
 - Adding multi-language transcript support
 - Adding the ability for a user to search the transcript by keyword or timestamp
